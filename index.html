@@ -3,119 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <title>AERVIX</title>
-<script src="https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec"></script>
-
+<script src="https://script.google.com/macros/s/AKfycbwM61vJGi_Y8EO6gUmJmmhaZ1emPEpzlUdiVbAzKzas5ov3qczj1yrlnthEvfANn8rwZA/exec"></script>
 <style>
 body{font-family:Arial;text-align:center;background:#0b1220;color:white;}
 input{padding:8px;margin:5px;border:none;border-radius:5px;}
-button{padding:8px 15px;border:none;border-radius:5px;background:#ff6a2b;color:white;}
+button{padding:8px 15px;border:none;border-radius:5px;background:#ff6a2b;color:white;cursor:pointer;}
+button:hover{background:#e55a1b;}
 table{margin:auto;margin-top:15px;border-collapse:collapse;}
 td,th{border:1px solid #444;padding:6px;}
 canvas{background:#111827;margin-top:20px;border-radius:10px;padding:10px;}
+.error{color:#ff6a6a;margin-top:10px;}
 </style>
 </head>
-
 <body>
-
 <h2>AERVIX Upload</h2>
-
 <input id="name" placeholder="Name">
 <input id="email" placeholder="Email">
 <input id="dept" placeholder="Dept">
 <input id="task" placeholder="Task">
 <br>
 <button onclick="upload()">Upload</button>
-
+<div id="uploadMsg"></div>
 <hr>
-
 <h2>Portfolio</h2>
-
 <input id="search" placeholder="Enter Name">
 <button onclick="fetchData()">View</button>
-
+<div id="fetchMsg"></div>
 <table id="table">
 <tr>
 <th>Name</th><th>Email</th><th>Dept</th><th>Task</th><th>Time</th>
 </tr>
 </table>
-
-<canvas id="chart" width="300" height="200"></canvas>
-
+<canvas id="chart" width="400" height="250"></canvas>
 <script>
+// Replace this with your actual Google Apps Script URL
+const URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
 
-const URL = "YOUR_SCRIPT_URL";
+let chartInstance = null; // Store chart instance to destroy before redrawing
 
 // ================= UPLOAD =================
 function upload(){
-
-  let n = document.getElementById("name").value;
-  let e = document.getElementById("email").value;
-  let d = document.getElementById("dept").value;
-  let t = document.getElementById("task").value;
-
+  let n = document.getElementById("name").value.trim();
+  let e = document.getElementById("email").value.trim();
+  let d = document.getElementById("dept").value.trim();
+  let t = document.getElementById("task").value.trim();
+  
+  // Validation
+  if(!n || !e || !d || !t){
+    document.getElementById("uploadMsg").innerHTML = '<p class="error">All fields are required!</p>';
+    return;
+  }
+  
+  document.getElementById("uploadMsg").innerHTML = '<p>Uploading...</p>';
+  
   fetch(URL +
     "?action=save" +
     "&name=" + encodeURIComponent(n) +
     "&email=" + encodeURIComponent(e) +
     "&dept=" + encodeURIComponent(d) +
-    "&task=" + encodeURIComponent(t));
-
-  alert("Uploaded");
+    "&task=" + encodeURIComponent(t))
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("uploadMsg").innerHTML = '<p style="color:#4ade80;">✓ Uploaded successfully!</p>';
+    // Clear inputs
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("dept").value = "";
+    document.getElementById("task").value = "";
+  })
+  .catch(err => {
+    document.getElementById("uploadMsg").innerHTML = '<p class="error">Upload failed: ' + err.message + '</p>';
+  });
 }
 
 // ================= FETCH =================
 function fetchData(){
-
-  let name = document.getElementById("search").value;
-
+  let name = document.getElementById("search").value.trim();
+  
+  if(!name){
+    document.getElementById("fetchMsg").innerHTML = '<p class="error">Please enter a name!</p>';
+    return;
+  }
+  
+  document.getElementById("fetchMsg").innerHTML = '<p>Loading...</p>';
+  
   fetch(URL + "?action=fetch&name=" + encodeURIComponent(name))
   .then(res => res.json())
   .then(data => {
-
     let table = document.getElementById("table");
     table.innerHTML =
       "<tr><th>Name</th><th>Email</th><th>Dept</th><th>Task</th><th>Time</th></tr>";
-
+    
+    if(data.length === 0){
+      document.getElementById("fetchMsg").innerHTML = '<p class="error">No records found for "' + name + '"</p>';
+      return;
+    }
+    
+    document.getElementById("fetchMsg").innerHTML = '<p style="color:#4ade80;">Found ' + data.length + ' record(s)</p>';
+    
     let count = {};
-
     data.forEach(r => {
-
+      // Format timestamp
+      let time = new Date(r.time).toLocaleString();
+      
       table.innerHTML +=
       `<tr>
         <td>${r.name}</td>
         <td>${r.email}</td>
         <td>${r.dept}</td>
         <td>${r.task}</td>
-        <td>${r.time}</td>
+        <td>${time}</td>
       </tr>`;
-
       count[r.task] = (count[r.task] || 0) + 1;
     });
-
     drawChart(count);
+  })
+  .catch(err => {
+    document.getElementById("fetchMsg").innerHTML = '<p class="error">Fetch failed: ' + err.message + '</p>';
   });
 }
 
 // ================= GRAPH =================
 function drawChart(data){
-
+  // Destroy previous chart instance if it exists
+  if(chartInstance){
+    chartInstance.destroy();
+  }
+  
   let labels = Object.keys(data);
   let values = Object.values(data);
-
-  new Chart(document.getElementById("chart"), {
+  
+  if(labels.length === 0){
+    return;
+  }
+  
+  let ctx = document.getElementById("chart").getContext("2d");
+  
+  chartInstance = new Chart(ctx, {
     type: "bar",
     data: {
       labels: labels,
       datasets: [{
         label: "Task Count",
-        data: values
+        data: values,
+        backgroundColor: '#ff6a2b',
+        borderColor: '#ff8a4b',
+        borderWidth: 1
       }]
+    },
+    options: {
+      responsive: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: '#fff',
+            stepSize: 1
+          },
+          grid: {
+            color: '#333'
+          }
+        },
+        x: {
+          ticks: {
+            color: '#fff'
+          },
+          grid: {
+            color: '#333'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: '#fff'
+          }
+        }
+      }
     }
   });
 }
-
 </script>
-
 </body>
 </html>
-
