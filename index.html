@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AERVIX - Hardware Engineering Platform</title>
-<script src="https://script.google.com/macros/s/AKfycbySMwgv2jHbpiQ6JyjjD3L92VOc79fA4sdHdqib2gkfglnEDmEAPAfl07FAiJj0Lbwnzg/exec"></script>
+<script src="https://script.google.com/macros/s/AKfycbyXtIUo2LCwwstXLSCGr8JizwZ8pC2BgoSSVVvqrv_wq9zq4zY6-IgFimBFu-wS6WNe1w/exec"></script>
 <style>
 /* ==================== RESET & BASE ==================== */
 * {
@@ -250,17 +250,23 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 106, 43, 0.1);
 }
 
+.search-box .btn-clear {
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+}
+
+.search-box .btn-clear:hover {
+  background: #334155;
+  color: #fff;
+}
+
 /* ==================== STATS ==================== */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
-  display: none;
-}
-
-.stats-grid.show {
-  display: grid;
 }
 
 .stat-card {
@@ -287,11 +293,6 @@ body {
 .chart-container {
   height: 350px;
   margin: 2rem 0;
-  display: none;
-}
-
-.chart-container.show {
-  display: block;
 }
 
 /* ==================== TABLE ==================== */
@@ -299,11 +300,6 @@ body {
   overflow-x: auto;
   border-radius: 8px;
   border: 1px solid #1e293b;
-  display: none;
-}
-
-.table-wrapper.show {
-  display: block;
 }
 
 .data-table {
@@ -355,6 +351,27 @@ body {
 
 .ref-link:hover {
   text-decoration: underline;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #64748b;
+}
+
+.empty-state svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
 }
 
 /* ==================== MODAL ==================== */
@@ -614,8 +631,9 @@ body {
     <div class="card">
       <h2 class="card-title">Search Tasks</h2>
       <div class="search-box">
-        <input type="text" id="search" placeholder="Enter name to view progress...">
+        <input type="text" id="search" placeholder="Enter name to filter tasks...">
         <button class="btn btn-primary" onclick="searchTasks()">Search</button>
+        <button class="btn btn-clear" onclick="clearSearch()">Show All</button>
       </div>
       <div id="searchMsg" class="message"></div>
     </div>
@@ -625,6 +643,10 @@ body {
       <div class="stat-card">
         <div class="stat-value" id="totalTasks">0</div>
         <div class="stat-label">Total Tasks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="uniqueUsers">0</div>
+        <div class="stat-label">Active Users</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="totalDepts">0</div>
@@ -638,7 +660,7 @@ body {
 
     <!-- Chart -->
     <div id="chartContainer" class="card chart-container">
-      <h2 class="card-title">Task Distribution</h2>
+      <h2 class="card-title">Department Distribution</h2>
       <canvas id="chart"></canvas>
     </div>
 
@@ -657,7 +679,20 @@ body {
               <th>Timestamp</th>
             </tr>
           </thead>
-          <tbody id="tableBody"></tbody>
+          <tbody id="tableBody">
+            <tr>
+              <td colspan="6">
+                <div class="empty-state">
+                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                    <circle cx="32" cy="32" r="30" stroke="#334155" stroke-width="3"/>
+                    <path d="M32 20v24M20 32h24" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+                  </svg>
+                  <h3>Loading tasks...</h3>
+                  <p>Please wait while we fetch the data</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -713,6 +748,7 @@ body {
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
 
 let chartInstance = null;
+let allTasksData = []; // Store all tasks globally
 
 // ==================== PAGE NAVIGATION ====================
 function showPage(page) {
@@ -727,6 +763,8 @@ function showPage(page) {
   } else if (page === 'progress') {
     document.getElementById('progressPage').classList.add('active');
     document.getElementById('btnProgress').classList.add('active');
+    // Load all tasks when switching to progress page
+    loadAllTasks();
   }
   
   // Scroll to top
@@ -796,46 +834,88 @@ function resetUploadForm() {
   document.getElementById('uploadMsg').classList.remove('show');
 }
 
+// ==================== LOAD ALL TASKS ====================
+function loadAllTasks() {
+  showMessage('searchMsg', 'loading', 'Loading all tasks...');
+  
+  const url = SCRIPT_URL + "?action=fetchAll";
+  
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      allTasksData = data; // Store globally
+      
+      if (data.length === 0) {
+        showMessage('searchMsg', 'error', 'No tasks found in the system');
+        showEmptyState();
+        return;
+      }
+      
+      showMessage('searchMsg', 'success', `Showing all ${data.length} task(s)`);
+      displayResults(data);
+    })
+    .catch(err => {
+      showMessage('searchMsg', 'error', 'Error loading tasks: ' + err.message);
+      showEmptyState();
+    });
+}
+
 // ==================== SEARCH FUNCTIONS ====================
 function searchTasks() {
   const name = document.getElementById('search').value.trim();
   
   if (!name) {
-    showMessage('searchMsg', 'error', 'Please enter a name to search');
-    hideResults();
+    loadAllTasks();
     return;
   }
   
   showMessage('searchMsg', 'loading', 'Searching...');
   
-  const url = SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name);
-  
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      if (data.length === 0) {
-        showMessage('searchMsg', 'error', 'No records found for "' + name + '"');
-        hideResults();
-        return;
-      }
-      
-      showMessage('searchMsg', 'success', 'Found ' + data.length + ' task(s)');
-      displayResults(data);
-    })
-    .catch(err => {
-      showMessage('searchMsg', 'error', 'Error: ' + err.message);
-      hideResults();
-    });
+  // Filter from allTasksData if available, otherwise fetch
+  if (allTasksData.length > 0) {
+    const filtered = allTasksData.filter(task => 
+      task.name.toLowerCase().includes(name.toLowerCase())
+    );
+    
+    if (filtered.length === 0) {
+      showMessage('searchMsg', 'error', 'No records found for "' + name + '"');
+      return;
+    }
+    
+    showMessage('searchMsg', 'success', `Found ${filtered.length} task(s) for "${name}"`);
+    displayResults(filtered);
+  } else {
+    // Fallback to API search
+    const url = SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name);
+    
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (data.length === 0) {
+          showMessage('searchMsg', 'error', 'No records found for "' + name + '"');
+          return;
+        }
+        
+        showMessage('searchMsg', 'success', `Found ${data.length} task(s) for "${name}"`);
+        displayResults(data);
+      })
+      .catch(err => {
+        showMessage('searchMsg', 'error', 'Error: ' + err.message);
+      });
+  }
+}
+
+function clearSearch() {
+  document.getElementById('search').value = '';
+  loadAllTasks();
 }
 
 function displayResults(data) {
-  // Show containers
-  document.getElementById('statsGrid').classList.add('show');
-  document.getElementById('chartContainer').classList.add('show');
-  document.getElementById('tableWrapper').classList.add('show');
-  
   // Update stats
   document.getElementById('totalTasks').textContent = data.length;
+  
+  const uniqueUsers = new Set(data.map(r => r.email));
+  document.getElementById('uniqueUsers').textContent = uniqueUsers.size;
   
   const depts = new Set(data.map(r => r.dept));
   document.getElementById('totalDepts').textContent = depts.size;
@@ -849,7 +929,10 @@ function displayResults(data) {
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = '';
   
-  data.forEach(r => {
+  // Sort by timestamp descending (newest first)
+  const sortedData = [...data].sort((a, b) => new Date(b.time) - new Date(a.time));
+  
+  sortedData.forEach(r => {
     const time = new Date(r.time).toLocaleString();
     const refLink = r.reference ? 
       `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
@@ -867,18 +950,42 @@ function displayResults(data) {
     `;
   });
   
-  // Update chart
-  const taskCount = {};
+  // Update chart - show department distribution
+  const deptCount = {};
   data.forEach(r => {
-    taskCount[r.task] = (taskCount[r.task] || 0) + 1;
+    deptCount[r.dept] = (deptCount[r.dept] || 0) + 1;
   });
-  drawChart(taskCount);
+  drawChart(deptCount);
 }
 
-function hideResults() {
-  document.getElementById('statsGrid').classList.remove('show');
-  document.getElementById('chartContainer').classList.remove('show');
-  document.getElementById('tableWrapper').classList.remove('show');
+function showEmptyState() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="6">
+        <div class="empty-state">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" stroke="#334155" stroke-width="3"/>
+            <path d="M22 28 L32 38 L42 28" stroke="#334155" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>No tasks found</h3>
+          <p>Start by uploading your first task!</p>
+        </div>
+      </td>
+    </tr>
+  `;
+  
+  // Reset stats
+  document.getElementById('totalTasks').textContent = '0';
+  document.getElementById('uniqueUsers').textContent = '0';
+  document.getElementById('totalDepts').textContent = '0';
+  document.getElementById('latestActivity').textContent = 'N/A';
+  
+  // Clear chart
+  if (chartInstance) {
+    chartInstance.destroy();
+    chartInstance = null;
+  }
 }
 
 function showMessage(id, type, text) {
