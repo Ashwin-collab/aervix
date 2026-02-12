@@ -1,188 +1,959 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AERVIX</title>
-<script src="https://script.google.com/macros/s/AKfycbwM61vJGi_Y8EO6gUmJmmhaZ1emPEpzlUdiVbAzKzas5ov3qczj1yrlnthEvfANn8rwZA/exec"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AERVIX - Hardware Engineering Platform</title>
+<script src="https://script.google.com/macros/s/AKfycbySMwgv2jHbpiQ6JyjjD3L92VOc79fA4sdHdqib2gkfglnEDmEAPAfl07FAiJj0Lbwnzg/exec"></script>
 <style>
-body{font-family:Arial;text-align:center;background:#0b1220;color:white;}
-input{padding:8px;margin:5px;border:none;border-radius:5px;}
-button{padding:8px 15px;border:none;border-radius:5px;background:#ff6a2b;color:white;cursor:pointer;}
-button:hover{background:#e55a1b;}
-table{margin:auto;margin-top:15px;border-collapse:collapse;}
-td,th{border:1px solid #444;padding:6px;}
-canvas{background:#111827;margin-top:20px;border-radius:10px;padding:10px;}
-.error{color:#ff6a6a;margin-top:10px;}
+/* ==================== RESET & BASE ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #0b1220;
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+/* ==================== NAVIGATION ==================== */
+.navbar {
+  background: #0f172a;
+  border-bottom: 1px solid #1e293b;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff6a2b;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background: #ff6a2b;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #e55a1b;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #334155;
+}
+
+.btn-secondary:hover {
+  background: #1e293b;
+  color: #fff;
+}
+
+.btn-secondary.active {
+  background: #1e293b;
+  color: #ff6a2b;
+  border-color: #ff6a2b;
+}
+
+/* ==================== MAIN CONTENT ==================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: #fff;
+}
+
+.page-subtitle {
+  font-size: 1.125rem;
+  color: #94a3b8;
+}
+
+/* ==================== CARDS ==================== */
+.card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+/* ==================== FORMS ==================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ff6a2b;
+  box-shadow: 0 0 0 3px rgba(255, 106, 43, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-hint {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+/* ==================== MESSAGES ==================== */
+.message {
+  margin: 1rem 0;
+  padding: 0.875rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: none;
+}
+
+.message.show {
+  display: block;
+}
+
+.message.success {
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.message.error {
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.2);
+}
+
+.message.loading {
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+/* ==================== SEARCH ==================== */
+.search-box {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.search-box input {
+  flex: 1;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #ff6a2b;
+  box-shadow: 0 0 0 3px rgba(255, 106, 43, 0.1);
+}
+
+/* ==================== STATS ==================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  display: none;
+}
+
+.stats-grid.show {
+  display: grid;
+}
+
+.stat-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff6a2b;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+/* ==================== CHART ==================== */
+.chart-container {
+  height: 350px;
+  margin: 2rem 0;
+  display: none;
+}
+
+.chart-container.show {
+  display: block;
+}
+
+/* ==================== TABLE ==================== */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #1e293b;
+  display: none;
+}
+
+.table-wrapper.show {
+  display: block;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.data-table thead {
+  background: #1e293b;
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #cbd5e1;
+  border-bottom: 2px solid #334155;
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid #1e293b;
+}
+
+.data-table tbody tr:hover {
+  background: #1e293b;
+}
+
+.data-table td {
+  padding: 1rem;
+  color: #e2e8f0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  background: rgba(255, 106, 43, 0.1);
+  color: #ff6a2b;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.ref-link {
+  color: #60a5fa;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.ref-link:hover {
+  text-decoration: underline;
+}
+
+/* ==================== MODAL ==================== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+  from { 
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.modal-icon {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.modal-subtitle {
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+.modal-body {
+  text-align: center;
+  line-height: 1.8;
+  color: #cbd5e1;
+}
+
+.developer-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ff6a2b;
+  margin: 1.5rem 0;
+}
+
+.modal-info {
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.modal-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #1e293b;
+  text-align: center;
+}
+
+.modal-footer-text {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+  background: #0f172a;
+  border-top: 1px solid #1e293b;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.footer-text {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-buttons {
+    gap: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+}
 </style>
 </head>
 <body>
-<h2>AERVIX Upload</h2>
-<input id="name" placeholder="Name">
-<input id="email" placeholder="Email">
-<input id="dept" placeholder="Dept">
-<input id="task" placeholder="Task">
-<br>
-<button onclick="upload()">Upload</button>
-<div id="uploadMsg"></div>
-<hr>
-<h2>Portfolio</h2>
-<input id="search" placeholder="Enter Name">
-<button onclick="fetchData()">View</button>
-<div id="fetchMsg"></div>
-<table id="table">
-<tr>
-<th>Name</th><th>Email</th><th>Dept</th><th>Task</th><th>Time</th>
-</tr>
-</table>
-<canvas id="chart" width="400" height="250"></canvas>
-<script>
-// Replace this with your actual Google Apps Script URL
-const URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
 
-let chartInstance = null; // Store chart instance to destroy before redrawing
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="logo" onclick="showPage('upload')">
+    <svg width="40" height="40" viewBox="0 0 40 40">
+      <path d="M20 5 L35 35 L5 35 Z" fill="#ff6a2b"/>
+    </svg>
+    <span class="logo-text">AERVIX</span>
+  </div>
+  <div class="nav-buttons">
+    <button class="btn btn-secondary active" id="btnUpload" onclick="showPage('upload')">Upload</button>
+    <button class="btn btn-secondary" id="btnProgress" onclick="showPage('progress')">Progress</button>
+    <button class="btn btn-secondary" id="btnAbout" onclick="showAbout()">About Us</button>
+  </div>
+</nav>
 
-// ================= UPLOAD =================
-function upload(){
-  let n = document.getElementById("name").value.trim();
-  let e = document.getElementById("email").value.trim();
-  let d = document.getElementById("dept").value.trim();
-  let t = document.getElementById("task").value.trim();
-  
-  // Validation
-  if(!n || !e || !d || !t){
-    document.getElementById("uploadMsg").innerHTML = '<p class="error">All fields are required!</p>';
-    return;
-  }
-  
-  document.getElementById("uploadMsg").innerHTML = '<p>Uploading...</p>';
-  
-  fetch(URL +
-    "?action=save" +
-    "&name=" + encodeURIComponent(n) +
-    "&email=" + encodeURIComponent(e) +
-    "&dept=" + encodeURIComponent(d) +
-    "&task=" + encodeURIComponent(t))
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("uploadMsg").innerHTML = '<p style="color:#4ade80;">✓ Uploaded successfully!</p>';
-    // Clear inputs
-    document.getElementById("name").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("dept").value = "";
-    document.getElementById("task").value = "";
-  })
-  .catch(err => {
-    document.getElementById("uploadMsg").innerHTML = '<p class="error">Upload failed: ' + err.message + '</p>';
-  });
-}
+<!-- Main Container -->
+<div class="container">
 
-// ================= FETCH =================
-function fetchData(){
-  let name = document.getElementById("search").value.trim();
-  
-  if(!name){
-    document.getElementById("fetchMsg").innerHTML = '<p class="error">Please enter a name!</p>';
-    return;
-  }
-  
-  document.getElementById("fetchMsg").innerHTML = '<p>Loading...</p>';
-  
-  fetch(URL + "?action=fetch&name=" + encodeURIComponent(name))
-  .then(res => res.json())
-  .then(data => {
-    let table = document.getElementById("table");
-    table.innerHTML =
-      "<tr><th>Name</th><th>Email</th><th>Dept</th><th>Task</th><th>Time</th></tr>";
+  <!-- UPLOAD PAGE -->
+  <div id="uploadPage" class="page active">
+    <div class="page-header">
+      <h1 class="page-title">Upload Task</h1>
+      <p class="page-subtitle">Log your hardware engineering activities</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">Task Information</h2>
+      <form id="uploadForm" onsubmit="uploadTask(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" placeholder="Enter your name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" placeholder="your.email@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="dept">Department *</label>
+            <select id="dept" required>
+              <option value="">Select Department</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Embedded Systems">Embedded Systems</option>
+              <option value="PCB Design">PCB Design</option>
+              <option value="IoT">IoT</option>
+              <option value="Robotics">Robotics</option>
+              <option value="Power Electronics">Power Electronics</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="task">Task Completed *</label>
+            <input type="text" id="task" placeholder="e.g., Arduino Temperature Sensor" required>
+          </div>
+
+          <div class="form-group full">
+            <label for="reference">Reference Link </label>
+            <input type="url" id="reference" placeholder="https://example.com/your-project">
+            <small class="form-hint">Add a link to your project documentation or reference</small>
+          </div>
+
+          <div class="form-group full">
+            <label for="description">Task Description</label>
+            <textarea id="description" rows="4" placeholder="Describe what you learned or accomplished..."></textarea>
+          </div>
+        </div>
+
+        <div id="uploadMsg" class="message"></div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="resetUploadForm()">Clear</button>
+          <button type="submit" class="btn btn-primary">Upload Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROGRESS PAGE -->
+  <div id="progressPage" class="page">
+    <div class="page-header">
+      <h1 class="page-title">Progress Tracker</h1>
+      <p class="page-subtitle">View and analyze your engineering journey</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card-title">Search Tasks</h2>
+      <div class="search-box">
+        <input type="text" id="search" placeholder="Enter name to view progress...">
+        <button class="btn btn-primary" onclick="searchTasks()">Search</button>
+      </div>
+      <div id="searchMsg" class="message"></div>
+    </div>
+
+    <!-- Statistics -->
+    <div id="statsGrid" class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalTasks">0</div>
+        <div class="stat-label">Total Tasks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalDepts">0</div>
+        <div class="stat-label">Departments</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="latestActivity">N/A</div>
+        <div class="stat-label">Latest Activity</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div id="chartContainer" class="card chart-container">
+      <h2 class="card-title">Task Distribution</h2>
+      <canvas id="chart"></canvas>
+    </div>
+
+    <!-- Table -->
+    <div id="tableContainer" class="card">
+      <h2 class="card-title">Task History</h2>
+      <div id="tableWrapper" class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Task</th>
+              <th>Reference</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- About Us Modal -->
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeAbout()">&times;</button>
     
-    if(data.length === 0){
-      document.getElementById("fetchMsg").innerHTML = '<p class="error">No records found for "' + name + '"</p>';
-      return;
-    }
+    <div class="modal-header">
+      <div class="modal-icon">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="38" fill="none" stroke="#ff6a2b" stroke-width="3"/>
+          <path d="M40 20 L55 50 L25 50 Z" fill="#ff6a2b"/>
+        </svg>
+      </div>
+      <h2 class="modal-title">About AERVIX</h2>
+      <p class="modal-subtitle">Hardware Engineering Platform</p>
+    </div>
     
-    document.getElementById("fetchMsg").innerHTML = '<p style="color:#4ade80;">Found ' + data.length + ' record(s)</p>';
-    
-    let count = {};
-    data.forEach(r => {
-      // Format timestamp
-      let time = new Date(r.time).toLocaleString();
+    <div class="modal-body">
+      <p class="modal-info">
+        AERVIX is a comprehensive platform designed to track and manage hardware engineering tasks, 
+        helping students and professionals organize their learning journey.
+      </p>
       
-      table.innerHTML +=
-      `<tr>
-        <td>${r.name}</td>
-        <td>${r.email}</td>
-        <td>${r.dept}</td>
-        <td>${r.task}</td>
-        <td>${time}</td>
-      </tr>`;
-      count[r.task] = (count[r.task] || 0) + 1;
-    });
-    drawChart(count);
-  })
-  .catch(err => {
-    document.getElementById("fetchMsg").innerHTML = '<p class="error">Fetch failed: ' + err.message + '</p>';
-  });
+      <p class="developer-name">Developed by ASHWIN K</p>
+      
+      <p class="modal-info">
+        This platform enables electronics enthusiasts to log their projects, 
+        track progress, and maintain a portfolio of their hardware achievements.
+      </p>
+    </div>
+    
+    <div class="modal-footer">
+      <p class="modal-footer-text">© 2026 AERVIX Engineering Club</p>
+      <p class="modal-footer-text">Offline Hardware Intelligence</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN AND DELIGHT</p>
+</footer>
+
+<script>
+// ==================== CONFIGURATION ====================
+// REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
+
+let chartInstance = null;
+
+// ==================== PAGE NAVIGATION ====================
+function showPage(page) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.btn-secondary').forEach(b => b.classList.remove('active'));
+  
+  // Show selected page
+  if (page === 'upload') {
+    document.getElementById('uploadPage').classList.add('active');
+    document.getElementById('btnUpload').classList.add('active');
+  } else if (page === 'progress') {
+    document.getElementById('progressPage').classList.add('active');
+    document.getElementById('btnProgress').classList.add('active');
+  }
+  
+  // Scroll to top
+  window.scrollTo(0, 0);
 }
 
-// ================= GRAPH =================
-function drawChart(data){
-  // Destroy previous chart instance if it exists
-  if(chartInstance){
+// ==================== ABOUT US MODAL ====================
+function showAbout() {
+  document.getElementById('aboutModal').classList.add('show');
+}
+
+function closeAbout() {
+  document.getElementById('aboutModal').classList.remove('show');
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById('aboutModal');
+  if (event.target === modal) {
+    closeAbout();
+  }
+}
+
+// ==================== UPLOAD FUNCTIONS ====================
+function uploadTask(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const dept = document.getElementById('dept').value;
+  const task = document.getElementById('task').value.trim();
+  const reference = document.getElementById('reference').value.trim();
+  const description = document.getElementById('description').value.trim();
+  
+  const msg = document.getElementById('uploadMsg');
+  msg.className = 'message loading show';
+  msg.textContent = 'Uploading task...';
+  
+  const url = SCRIPT_URL + 
+    "?action=save" +
+    "&name=" + encodeURIComponent(name) +
+    "&email=" + encodeURIComponent(email) +
+    "&dept=" + encodeURIComponent(dept) +
+    "&task=" + encodeURIComponent(task) +
+    "&reference=" + encodeURIComponent(reference) +
+    "&description=" + encodeURIComponent(description);
+  
+  fetch(url)
+    .then(res => res.text())
+    .then(data => {
+      msg.className = 'message success show';
+      msg.textContent = '✓ Task uploaded successfully!';
+      
+      setTimeout(() => {
+        resetUploadForm();
+        msg.classList.remove('show');
+      }, 2000);
+    })
+    .catch(err => {
+      msg.className = 'message error show';
+      msg.textContent = '✕ Upload failed: ' + err.message;
+    });
+}
+
+function resetUploadForm() {
+  document.getElementById('uploadForm').reset();
+  document.getElementById('uploadMsg').classList.remove('show');
+}
+
+// ==================== SEARCH FUNCTIONS ====================
+function searchTasks() {
+  const name = document.getElementById('search').value.trim();
+  
+  if (!name) {
+    showMessage('searchMsg', 'error', 'Please enter a name to search');
+    hideResults();
+    return;
+  }
+  
+  showMessage('searchMsg', 'loading', 'Searching...');
+  
+  const url = SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name);
+  
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      if (data.length === 0) {
+        showMessage('searchMsg', 'error', 'No records found for "' + name + '"');
+        hideResults();
+        return;
+      }
+      
+      showMessage('searchMsg', 'success', 'Found ' + data.length + ' task(s)');
+      displayResults(data);
+    })
+    .catch(err => {
+      showMessage('searchMsg', 'error', 'Error: ' + err.message);
+      hideResults();
+    });
+}
+
+function displayResults(data) {
+  // Show containers
+  document.getElementById('statsGrid').classList.add('show');
+  document.getElementById('chartContainer').classList.add('show');
+  document.getElementById('tableWrapper').classList.add('show');
+  
+  // Update stats
+  document.getElementById('totalTasks').textContent = data.length;
+  
+  const depts = new Set(data.map(r => r.dept));
+  document.getElementById('totalDepts').textContent = depts.size;
+  
+  if (data.length > 0) {
+    const latest = new Date(data[data.length - 1].time);
+    document.getElementById('latestActivity').textContent = latest.toLocaleDateString();
+  }
+  
+  // Update table
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  
+  data.forEach(r => {
+    const time = new Date(r.time).toLocaleString();
+    const refLink = r.reference ? 
+      `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
+      '<span style="color:#64748b;">N/A</span>';
+    
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${r.name}</strong></td>
+        <td>${r.email}</td>
+        <td><span class="badge">${r.dept}</span></td>
+        <td>${r.task}</td>
+        <td>${refLink}</td>
+        <td>${time}</td>
+      </tr>
+    `;
+  });
+  
+  // Update chart
+  const taskCount = {};
+  data.forEach(r => {
+    taskCount[r.task] = (taskCount[r.task] || 0) + 1;
+  });
+  drawChart(taskCount);
+}
+
+function hideResults() {
+  document.getElementById('statsGrid').classList.remove('show');
+  document.getElementById('chartContainer').classList.remove('show');
+  document.getElementById('tableWrapper').classList.remove('show');
+}
+
+function showMessage(id, type, text) {
+  const msg = document.getElementById(id);
+  msg.className = 'message ' + type + ' show';
+  msg.textContent = text;
+}
+
+// ==================== CHART FUNCTIONS ====================
+function drawChart(data) {
+  if (chartInstance) {
     chartInstance.destroy();
   }
   
-  let labels = Object.keys(data);
-  let values = Object.values(data);
+  const labels = Object.keys(data);
+  const values = Object.values(data);
   
-  if(labels.length === 0){
-    return;
-  }
-  
-  let ctx = document.getElementById("chart").getContext("2d");
+  const ctx = document.getElementById('chart').getContext('2d');
   
   chartInstance = new Chart(ctx, {
-    type: "bar",
+    type: 'bar',
     data: {
       labels: labels,
       datasets: [{
-        label: "Task Count",
+        label: 'Task Count',
         data: values,
         backgroundColor: '#ff6a2b',
         borderColor: '#ff8a4b',
-        borderWidth: 1
+        borderWidth: 2,
+        borderRadius: 6
       }]
     },
     options: {
-      responsive: false,
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2,
       scales: {
         y: {
           beginAtZero: true,
           ticks: {
-            color: '#fff',
-            stepSize: 1
+            color: '#94a3b8',
+            stepSize: 1,
+            font: { size: 12 }
           },
-          grid: {
-            color: '#333'
-          }
+          grid: { color: '#1e293b' }
         },
         x: {
           ticks: {
-            color: '#fff'
+            color: '#94a3b8',
+            font: { size: 12 }
           },
-          grid: {
-            color: '#333'
-          }
+          grid: { color: '#1e293b' }
         }
       },
       plugins: {
         legend: {
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: { size: 14 }
           }
         }
       }
     }
   });
 }
+
+// Search on Enter key
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('search').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      searchTasks();
+    }
+  });
+});
 </script>
+
 </body>
 </html>
