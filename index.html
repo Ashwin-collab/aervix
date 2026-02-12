@@ -1,168 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AERVIX</title>
+<title>AERVIX Name Upload</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;}
-
 body{
-    background:#0b1220;
-    color:white;
-    text-align:center;
+  font-family:Arial;
+  text-align:center;
+  background:#0b1220;
+  color:white;
 }
 
-/* NAVBAR */
-.nav{
-    background:#111827;
-    padding:15px 25px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.logo{
-    font-size:20px;
-    font-weight:bold;
-    color:#ff6a2b;
-}
-
-/* MAIN */
 .container{
-    max-width:450px;
-    margin:40px auto;
-    padding:25px;
-    background:#111827;
-    border-radius:12px;
+  margin-top:100px;
 }
 
-/* INPUTS */
-input, textarea, select{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:none;
-    border-radius:8px;
-    background:#1f2937;
-    color:white;
+input{
+  padding:10px;
+  width:200px;
+  border-radius:5px;
+  border:none;
 }
 
-textarea{height:80px;}
-
-/* BUTTON */
 button{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:8px;
-    background:#ff6a2b;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
-}
-
-button:hover{opacity:0.9;}
-
-h1{color:#ff6a2b;margin-bottom:15px;}
-
-#msg{margin-top:10px;color:#22c55e;}
-
-footer{
-    margin-top:30px;
-    font-size:13px;
-    color:#6b7280;
+  padding:10px 20px;
+  border:none;
+  border-radius:5px;
+  background:#ff6a2b;
+  color:white;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="nav">
-    <div class="logo">AERVIX</div>
-</div>
-
-<!-- FORM -->
 <div class="container">
 
-<h1>AERVIX Task Upload</h1>
+<h2>Enter Your Name</h2>
 
-<input id="name" placeholder="Enter Name">
-<input id="email" placeholder="Enter Email">
-<input id="dept" placeholder="Department">
-
-<select id="board">
-    <option>Arduino UNO</option>
-    <option>Arduino Nano</option>
-    <option>Arduino Mega</option>
-    <option>ESP32</option>
-</select>
-
-<input id="task" placeholder="Task Name">
-<textarea id="code" placeholder="Code Used"></textarea>
-<textarea id="circuit" placeholder="Circuit Design"></textarea>
-<input id="ref" placeholder="Reference Link">
-
-<button onclick="sendData()">Submit Task</button>
+<input id="name" placeholder="Name">
+<br><br>
+<button onclick="sendName()">Submit</button>
 
 <p id="msg"></p>
 
 </div>
 
-<footer>
-© 2026 AERVIX Engineering Club — Offline Hardware Intelligence<br>
-Developed by ASHWIN AND DELIGHT
-</footer>
-
 <script>
 
-/* 🔴 PASTE YOUR GOOGLE APPS SCRIPT URL HERE */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzlZjLLmlUQA0aErf5mdTomxzhYLG3MYM3PHepUaZdFvzTL_DbuRrTP91BgvgFha_3pQg/exec";
+/* 🔴 Paste your Apps Script URL here */
+const URL = "YOUR_SCRIPT_URL";
 
-function sendData(){
+function sendName(){
 
-    let data = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        department: document.getElementById("dept").value,
-        board: document.getElementById("board").value,
-        task: document.getElementById("task").value,
-        code: document.getElementById("code").value,
-        circuit: document.getElementById("circuit").value,
-        reference: document.getElementById("ref").value
-    };
+  let name = document.getElementById("name").value;
 
-    if(!data.name || !data.task){
-        alert("Please fill required fields");
-        return;
-    }
+  if(!name){
+    alert("Enter name");
+    return;
+  }
 
-    document.getElementById("msg").innerText = "Uploading...";
-
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-    })
-    .then(res => res.json())
-    .then(res => {
-        document.getElementById("msg").innerText = "✅ Task Uploaded Successfully!";
-        clearForm();
-    })
-    .catch(err => {
-        document.getElementById("msg").innerText = "❌ Error uploading data";
-    });
-}
-
-function clearForm(){
-    document.querySelectorAll("input, textarea").forEach(e => e.value="");
+  fetch(URL + "?name=" + encodeURIComponent(name), {
+    method: "POST",
+    mode: "no-cors"
+  })
+  .then(() => {
+    document.getElementById("msg").innerText = "✅ Uploaded!";
+    document.getElementById("name").value="";
+  })
+  .catch(() => {
+    document.getElementById("msg").innerText = "❌ Error";
+  });
 }
 
 </script>
 
 </body>
 </html>
-
