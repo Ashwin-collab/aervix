@@ -2,36 +2,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AERVIX Task Upload</title>
+<title>AERVIX</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{
-  font-family:Arial;
-  text-align:center;
-  background:#0b1220;
-  color:white;
-}
-
-.container{
-  margin-top:80px;
-}
-
-input{
-  padding:10px;
-  width:250px;
-  margin:8px;
-  border-radius:6px;
-  border:none;
-}
-
-button{
-  padding:10px 20px;
-  border:none;
-  border-radius:6px;
-  background:#ff6a2b;
-  color:white;
-  cursor:pointer;
-}
+body{font-family:Arial;text-align:center;background:#0b1220;color:white;}
+.container{margin-top:50px;}
+input{padding:8px;margin:5px;border-radius:5px;border:none;}
+button{padding:8px 15px;border:none;border-radius:5px;background:#ff6a2b;color:white;cursor:pointer;}
+table{margin:auto;margin-top:20px;border-collapse:collapse;}
+td,th{border:1px solid #555;padding:6px;}
+canvas{margin-top:20px;background:#111827;padding:10px;border-radius:10px;}
 </style>
 </head>
 
@@ -46,45 +27,94 @@ button{
 <input id="dept" placeholder="Department"><br>
 <input id="task" placeholder="Task"><br>
 
-<button onclick="sendData()">Submit</button>
+<button onclick="saveData()">Upload Task</button>
 
-<p id="msg"></p>
+<hr>
+
+<h2>Portfolio View</h2>
+
+<input id="searchName" placeholder="Enter Name">
+<button onclick="fetchData()">View Portfolio</button>
+
+<table id="table">
+<tr>
+<th>Name</th><th>Email</th><th>Dept</th><th>Task</th><th>Time</th>
+</tr>
+</table>
+
+<canvas id="graph" width="300" height="200"></canvas>
 
 </div>
 
 <script>
 
-/* 🔴 Paste Apps Script URL */
-const URL = "https://script.google.com/macros/s/AKfycbyJfO6flbHeVgX-jZcx1pRfdQHTz62yutb4gPTDIujhKkkuogn6X5pzLQD5tYYSIjtWyw/exec";
+const URL = "YOUR_SCRIPT_URL";
 
-function sendData(){
+function saveData(){
 
   let name = document.getElementById("name").value;
   let email = document.getElementById("email").value;
   let dept = document.getElementById("dept").value;
   let task = document.getElementById("task").value;
 
-  if(!name || !task){
-    alert("Fill required fields");
-    return;
-  }
-
-  let params =
-    "?name=" + encodeURIComponent(name) +
+  fetch(URL +
+    "?action=save" +
+    "&name=" + encodeURIComponent(name) +
     "&email=" + encodeURIComponent(email) +
     "&dept=" + encodeURIComponent(dept) +
-    "&task=" + encodeURIComponent(task);
+    "&task=" + encodeURIComponent(task),
+  { method:"POST", mode:"no-cors" });
 
-  fetch(URL + params, {
-    method: "POST",
-    mode: "no-cors"
-  })
-  .then(() => {
-    document.getElementById("msg").innerText = "✅ Uploaded Successfully";
-    document.querySelectorAll("input").forEach(i => i.value="");
-  })
-  .catch(() => {
-    document.getElementById("msg").innerText = "❌ Upload Failed";
+  alert("Saved");
+}
+
+function fetchData(){
+
+  let name = document.getElementById("searchName").value;
+
+  fetch(URL +
+    "?action=fetch&name=" + encodeURIComponent(name))
+  .then(res => res.json())
+  .then(data => {
+
+    let table = document.getElementById("table");
+    table.innerHTML =
+      "<tr><th>Name</th><th>Email</th><th>Dept</th><th>Task</th><th>Time</th></tr>";
+
+    let tasksCount = {};
+
+    data.forEach(row => {
+
+      table.innerHTML +=
+        `<tr>
+          <td>${row.name}</td>
+          <td>${row.email}</td>
+          <td>${row.dept}</td>
+          <td>${row.task}</td>
+          <td>${row.time}</td>
+        </tr>`;
+
+      tasksCount[row.task] = (tasksCount[row.task] || 0) + 1;
+    });
+
+    drawGraph(tasksCount);
+  });
+}
+
+function drawGraph(data){
+
+  let labels = Object.keys(data);
+  let values = Object.values(data);
+
+  new Chart(document.getElementById("graph"), {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Task Count",
+        data: values
+      }]
+    }
   });
 }
 
