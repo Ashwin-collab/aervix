@@ -3,38 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>AERVIX</title>
-<script src="https://script.google.com/macros/s/AKfycbyHp2jvE99Z_D_blAuwFg0d49tx4ELjeZtyghJ4hWa2LfL-MWTZmk4MRaAsv4hmkZU4NQ/exec"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 body{font-family:Arial;text-align:center;background:#0b1220;color:white;}
-.container{margin-top:50px;}
-input{padding:8px;margin:5px;border-radius:5px;border:none;}
-button{padding:8px 15px;border:none;border-radius:5px;background:#ff6a2b;color:white;cursor:pointer;}
-table{margin:auto;margin-top:20px;border-collapse:collapse;}
-td,th{border:1px solid #555;padding:6px;}
-canvas{margin-top:20px;background:#111827;padding:10px;border-radius:10px;}
+input{padding:8px;margin:5px;border:none;border-radius:5px;}
+button{padding:8px 15px;border:none;border-radius:5px;background:#ff6a2b;color:white;}
+table{margin:auto;margin-top:15px;border-collapse:collapse;}
+td,th{border:1px solid #444;padding:6px;}
+canvas{background:#111827;margin-top:20px;border-radius:10px;padding:10px;}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<h2>AERVIX Upload</h2>
 
-<h2>AERVIX Task Upload</h2>
-
-<input id="name" placeholder="Name"><br>
-<input id="email" placeholder="Email"><br>
-<input id="dept" placeholder="Department"><br>
-<input id="task" placeholder="Task"><br>
-
-<button onclick="saveData()">Upload Task</button>
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<input id="dept" placeholder="Dept">
+<input id="task" placeholder="Task">
+<br>
+<button onclick="upload()">Upload</button>
 
 <hr>
 
-<h2>Portfolio View</h2>
+<h2>Portfolio</h2>
 
-<input id="searchName" placeholder="Enter Name">
-<button onclick="fetchData()">View Portfolio</button>
+<input id="search" placeholder="Enter Name">
+<button onclick="fetchData()">View</button>
 
 <table id="table">
 <tr>
@@ -42,38 +39,36 @@ canvas{margin-top:20px;background:#111827;padding:10px;border-radius:10px;}
 </tr>
 </table>
 
-<canvas id="graph" width="300" height="200"></canvas>
-
-</div>
+<canvas id="chart" width="300" height="200"></canvas>
 
 <script>
 
 const URL = "YOUR_SCRIPT_URL";
 
-function saveData(){
+// ================= UPLOAD =================
+function upload(){
 
-  let name = document.getElementById("name").value;
-  let email = document.getElementById("email").value;
-  let dept = document.getElementById("dept").value;
-  let task = document.getElementById("task").value;
+  let n = document.getElementById("name").value;
+  let e = document.getElementById("email").value;
+  let d = document.getElementById("dept").value;
+  let t = document.getElementById("task").value;
 
   fetch(URL +
     "?action=save" +
-    "&name=" + encodeURIComponent(name) +
-    "&email=" + encodeURIComponent(email) +
-    "&dept=" + encodeURIComponent(dept) +
-    "&task=" + encodeURIComponent(task),
-  { method:"POST", mode:"no-cors" });
+    "&name=" + encodeURIComponent(n) +
+    "&email=" + encodeURIComponent(e) +
+    "&dept=" + encodeURIComponent(d) +
+    "&task=" + encodeURIComponent(t));
 
-  alert("Saved");
+  alert("Uploaded");
 }
 
+// ================= FETCH =================
 function fetchData(){
 
-  let name = document.getElementById("searchName").value;
+  let name = document.getElementById("search").value;
 
-  fetch(URL +
-    "?action=fetch&name=" + encodeURIComponent(name))
+  fetch(URL + "?action=fetch&name=" + encodeURIComponent(name))
   .then(res => res.json())
   .then(data => {
 
@@ -81,32 +76,33 @@ function fetchData(){
     table.innerHTML =
       "<tr><th>Name</th><th>Email</th><th>Dept</th><th>Task</th><th>Time</th></tr>";
 
-    let tasksCount = {};
+    let count = {};
 
-    data.forEach(row => {
+    data.forEach(r => {
 
       table.innerHTML +=
-        `<tr>
-          <td>${row.name}</td>
-          <td>${row.email}</td>
-          <td>${row.dept}</td>
-          <td>${row.task}</td>
-          <td>${row.time}</td>
-        </tr>`;
+      `<tr>
+        <td>${r.name}</td>
+        <td>${r.email}</td>
+        <td>${r.dept}</td>
+        <td>${r.task}</td>
+        <td>${r.time}</td>
+      </tr>`;
 
-      tasksCount[row.task] = (tasksCount[row.task] || 0) + 1;
+      count[r.task] = (count[r.task] || 0) + 1;
     });
 
-    drawGraph(tasksCount);
+    drawChart(count);
   });
 }
 
-function drawGraph(data){
+// ================= GRAPH =================
+function drawChart(data){
 
   let labels = Object.keys(data);
   let values = Object.values(data);
 
-  new Chart(document.getElementById("graph"), {
+  new Chart(document.getElementById("chart"), {
     type: "bar",
     data: {
       labels: labels,
@@ -122,4 +118,3 @@ function drawGraph(data){
 
 </body>
 </html>
-
