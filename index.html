@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AERVIX Name Upload</title>
+<title>AERVIX Task Upload</title>
 
 <style>
 body{
@@ -13,20 +13,21 @@ body{
 }
 
 .container{
-  margin-top:100px;
+  margin-top:80px;
 }
 
 input{
   padding:10px;
-  width:200px;
-  border-radius:5px;
+  width:250px;
+  margin:8px;
+  border-radius:6px;
   border:none;
 }
 
 button{
   padding:10px 20px;
   border:none;
-  border-radius:5px;
+  border-radius:6px;
   background:#ff6a2b;
   color:white;
   cursor:pointer;
@@ -38,11 +39,14 @@ button{
 
 <div class="container">
 
-<h2>Enter Your Name</h2>
+<h2>AERVIX Task Upload</h2>
 
-<input id="name" placeholder="Name">
-<br><br>
-<button onclick="sendName()">Submit</button>
+<input id="name" placeholder="Name"><br>
+<input id="email" placeholder="Email"><br>
+<input id="dept" placeholder="Department"><br>
+<input id="task" placeholder="Task"><br>
+
+<button onclick="sendData()">Submit</button>
 
 <p id="msg"></p>
 
@@ -50,28 +54,37 @@ button{
 
 <script>
 
-/* 🔴 Paste your Apps Script URL here */
-const URL = "https://script.google.com/macros/s/AKfycbyE11rWkOC8SId_rDD9quP2k4PVBEq_E7nHF3fe7e4_cGNHm1WxSgl1PknMianZGhw-3g/exec";
+/* 🔴 Paste Apps Script URL */
+const URL = "https://script.google.com/macros/s/AKfycbyJfO6flbHeVgX-jZcx1pRfdQHTz62yutb4gPTDIujhKkkuogn6X5pzLQD5tYYSIjtWyw/exec";
 
-function sendName(){
+function sendData(){
 
   let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let dept = document.getElementById("dept").value;
+  let task = document.getElementById("task").value;
 
-  if(!name){
-    alert("Enter name");
+  if(!name || !task){
+    alert("Fill required fields");
     return;
   }
 
-  fetch(URL + "?name=" + encodeURIComponent(name), {
+  let params =
+    "?name=" + encodeURIComponent(name) +
+    "&email=" + encodeURIComponent(email) +
+    "&dept=" + encodeURIComponent(dept) +
+    "&task=" + encodeURIComponent(task);
+
+  fetch(URL + params, {
     method: "POST",
     mode: "no-cors"
   })
   .then(() => {
-    document.getElementById("msg").innerText = "✅ Uploaded!";
-    document.getElementById("name").value="";
+    document.getElementById("msg").innerText = "✅ Uploaded Successfully";
+    document.querySelectorAll("input").forEach(i => i.value="");
   })
   .catch(() => {
-    document.getElementById("msg").innerText = "❌ Error";
+    document.getElementById("msg").innerText = "❌ Upload Failed";
   });
 }
 
@@ -79,5 +92,3 @@ function sendName(){
 
 </body>
 </html>
-
-
