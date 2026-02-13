@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AERVIX - Hardware Engineering Platform</title>
-<script src="  https://script.google.com/macros/s/AKfycbxEMt1KthKMetUY_rfMjA8aqYpdqenwsf1kgUUnlykED6paFEvxop5DJfJlOpjb8ZwG1w/exec"></script>
+<script src="https://script.google.com/macros/s/AKfycbz78fCs0FSmBV0SPXmT0hQNr3RC3ulVvYOmKZzaJK2TEzqd5hUNYjrHtRW-6c-7ug-0oQ/exec"></script>
 <style>
 /* ==================== RESET & BASE ==================== */
 * {
@@ -125,8 +125,6 @@ body {
   font-size: 1rem;
   color: #94a3b8;
   line-height: 1.5;
-}
-  color: #94a3b8;
 }
 
 /* ==================== CARDS ==================== */
@@ -249,11 +247,13 @@ body {
 .search-box {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .search-box input {
   flex: 1;
+  min-width: 200px;
   background: #1e293b;
   border: 1px solid #334155;
   color: #e2e8f0;
@@ -270,11 +270,10 @@ body {
 
 /* ==================== STATS ==================== */
 .stats-grid {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
-  display: none;
 }
 
 .stats-grid.show {
@@ -317,11 +316,6 @@ body {
   overflow-x: auto;
   border-radius: 8px;
   border: 1px solid #1e293b;
-  display: none;
-}
-
-.table-wrapper.show {
-  display: block;
 }
 
 .data-table {
@@ -514,31 +508,6 @@ body {
   }
 
   .nav-buttons {
-    gap: 0.5rem;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-  }
-
-  .page-title {
-    font-size: 2rem;
-  }
-
-  .search-box {
-    flex-direction: column;
-  }
-
-  .form-actions {
-    flex-direction: column;
-  }
-
-  .form-actions .btn {
-    width: 100%;
-  }
-
-  .nav-buttons {
     width: 100%;
     justify-content: stretch;
   }
@@ -546,6 +515,25 @@ body {
   .btn {
     flex: 1;
     min-width: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .search-box button {
+    width: 100%;
   }
 
   .data-table th,
@@ -624,7 +612,6 @@ body {
               <option value="IT">IT</option>
               <option value="CSE">CSE</option>
               <option value="AIDS/AIML">AIDS/AIML</option>
-              <option value="CSE">CSE</option>
               <option value="MECHANICAL">MECHANICAL</option>
               <option value="Other">Other</option>
             </select>
@@ -682,7 +669,13 @@ body {
         <div class="stat-value" id="totalTasks">0</div>
         <div class="stat-label">Total Tasks</div>
       </div>
-      
+      <div class="stat-card">
+        <div class="stat-value" id="totalUsers">0</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalDepts">0</div>
+        <div class="stat-label">Departments</div>
       </div>
     </div>
 
@@ -695,7 +688,7 @@ body {
     <!-- Table -->
     <div id="tableContainer" class="card">
       <h3 style="color: #fff; margin-bottom: 1.5rem; font-size: 1.1rem;">All Tasks</h3>
-      <div id="tableWrapper" class="table-wrapper show">
+      <div id="tableWrapper" class="table-wrapper">
         <table class="data-table">
           <thead>
             <tr>
@@ -754,13 +747,13 @@ body {
 
 <!-- Footer -->
 <footer class="footer">
-  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN AND DELIGHT</p>
+  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN K</p>
 </footer>
 
 <script>
 // ==================== CONFIGURATION ====================
 // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEMt1KthKMetUY_rfMjA8aqYpdqenwsf1kgUUnlykED6paFEvxop5DJfJlOpjb8ZwG1w/exec";
 
 let chartInstance = null;
 
@@ -921,6 +914,9 @@ function showError(message) {
 }
 
 function displayResults(data) {
+  // Hide error message
+  document.getElementById('errorMsg').style.display = 'none';
+  
   // Show containers
   document.getElementById('statsGrid').classList.add('show');
   document.getElementById('chartContainer').classList.add('show');
@@ -1047,5 +1043,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
-
-
