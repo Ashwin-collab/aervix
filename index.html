@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AERVIX - Hardware Engineering Platform</title>
-<script src="https://script.google.com/macros/s/AKfycbwuJFnDavDtHVtOic6muTqBLHd_jhvSrZUqprrIz4Fnc4NyKmmQ_HuUpFe3QJi-UvF8FQ/exec"></script>
+<script src="https://script.google.com/macros/s/AKfycbyXtIUo2LCwwstXLSCGr8JizwZ8pC2BgoSSVVvqrv_wq9zq4zY6-IgFimBFu-wS6WNe1w/exec"></script>
 <style>
 /* ==================== RESET & BASE ==================== */
 * {
@@ -125,6 +125,8 @@ body {
   font-size: 1rem;
   color: #94a3b8;
   line-height: 1.5;
+}
+  color: #94a3b8;
 }
 
 /* ==================== CARDS ==================== */
@@ -247,13 +249,11 @@ body {
 .search-box {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  margin-bottom: 2rem;
 }
 
 .search-box input {
   flex: 1;
-  min-width: 200px;
   background: #1e293b;
   border: 1px solid #334155;
   color: #e2e8f0;
@@ -270,10 +270,11 @@ body {
 
 /* ==================== STATS ==================== */
 .stats-grid {
-  display: none;
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+  display: none;
 }
 
 .stats-grid.show {
@@ -316,6 +317,11 @@ body {
   overflow-x: auto;
   border-radius: 8px;
   border: 1px solid #1e293b;
+  display: none;
+}
+
+.table-wrapper.show {
+  display: block;
 }
 
 .data-table {
@@ -508,6 +514,31 @@ body {
   }
 
   .nav-buttons {
+    gap: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .nav-buttons {
     width: 100%;
     justify-content: stretch;
   }
@@ -515,25 +546,6 @@ body {
   .btn {
     flex: 1;
     min-width: 0;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
-  }
-
-  .page-title {
-    font-size: 1.75rem;
-  }
-
-  .search-box {
-    flex-direction: column;
-  }
-
-  .search-box input {
-    width: 100%;
-    min-width: 0;
-  }
-
-  .search-box button {
-    width: 100%;
   }
 
   .data-table th,
@@ -607,12 +619,12 @@ body {
             <label for="dept">Department *</label>
             <select id="dept" required>
               <option value="">Select Department</option>
-              <option value="ECE">ECE</option>
-              <option value="EEE">EEE</option>
-              <option value="IT">IT</option>
-              <option value="CSE">CSE</option>
-              <option value="AIDS/AIML">AIDS/AIML</option>
-              <option value="MECHANICAL">MECHANICAL</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Embedded Systems">Embedded Systems</option>
+              <option value="PCB Design">PCB Design</option>
+              <option value="IoT">IoT</option>
+              <option value="Robotics">Robotics</option>
+              <option value="Power Electronics">Power Electronics</option>
               <option value="Other">Other</option>
             </select>
           </div>
@@ -688,7 +700,7 @@ body {
     <!-- Table -->
     <div id="tableContainer" class="card">
       <h3 style="color: #fff; margin-bottom: 1.5rem; font-size: 1.1rem;">All Tasks</h3>
-      <div id="tableWrapper" class="table-wrapper">
+      <div id="tableWrapper" class="table-wrapper show">
         <table class="data-table">
           <thead>
             <tr>
@@ -747,28 +759,15 @@ body {
 
 <!-- Footer -->
 <footer class="footer">
-  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN K</p>
+  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN AND DELIGHT</p>
 </footer>
 
 <script>
 // ==================== CONFIGURATION ====================
-// ⚠️ REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
-const SCRIPT_URL = "YOUR_SCRIPT_URL_HERE";
+// REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
 
 let chartInstance = null;
-
-// ==================== TEST CONNECTION ====================
-function testConnection() {
-  console.log("Testing connection to:", SCRIPT_URL);
-  fetch(SCRIPT_URL + "?action=test")
-    .then(res => res.json())
-    .then(data => {
-      console.log("Connection test result:", data);
-    })
-    .catch(err => {
-      console.error("Connection test failed:", err);
-    });
-}
 
 // ==================== PAGE NAVIGATION ====================
 function showPage(page) {
@@ -832,15 +831,9 @@ function uploadTask(event) {
     "&reference=" + encodeURIComponent(reference) +
     "&description=" + encodeURIComponent(description);
   
-  console.log("Uploading to:", url);
-  
   fetch(url)
-    .then(res => {
-      console.log("Upload response status:", res.status);
-      return res.text();
-    })
+    .then(res => res.text())
     .then(data => {
-      console.log("Upload response:", data);
       msg.className = 'message success show';
       msg.textContent = '✓ Task uploaded successfully!';
       
@@ -850,7 +843,6 @@ function uploadTask(event) {
       }, 2000);
     })
     .catch(err => {
-      console.error("Upload error:", err);
       msg.className = 'message error show';
       msg.textContent = '✕ Upload failed: ' + err.message;
     });
@@ -863,26 +855,17 @@ function resetUploadForm() {
 
 // ==================== LOAD ALL TASKS ====================
 function loadAllTasks() {
-  console.log("Loading all tasks from:", SCRIPT_URL);
-  
   showLoading();
   hideResults();
   
   const url = SCRIPT_URL + "?action=fetchAll";
   
   fetch(url)
-    .then(res => {
-      console.log("Fetch response status:", res.status);
-      if (!res.ok) {
-        throw new Error('Network response was not ok: ' + res.status);
-      }
-      return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
-      console.log("Fetched data:", data);
       hideLoading();
       
-      if (!data || data.length === 0) {
+      if (data.length === 0) {
         showError('No tasks found. Start by uploading your first task!');
         return;
       }
@@ -890,9 +873,8 @@ function loadAllTasks() {
       displayResults(data);
     })
     .catch(err => {
-      console.error("Fetch error:", err);
       hideLoading();
-      showError('Error loading tasks: ' + err.message + '. Please check your Script URL and deployment settings.');
+      showError('Error loading tasks: ' + err.message);
     });
 }
 
@@ -905,26 +887,17 @@ function searchTasks() {
     return;
   }
   
-  console.log("Searching for:", name);
-  
   showLoading();
   hideResults();
   
   const url = SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name);
   
   fetch(url)
-    .then(res => {
-      console.log("Search response status:", res.status);
-      if (!res.ok) {
-        throw new Error('Network response was not ok: ' + res.status);
-      }
-      return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
-      console.log("Search results:", data);
       hideLoading();
       
-      if (!data || data.length === 0) {
+      if (data.length === 0) {
         showError('No tasks found for "' + name + '"');
         return;
       }
@@ -932,7 +905,6 @@ function searchTasks() {
       displayResults(data);
     })
     .catch(err => {
-      console.error("Search error:", err);
       hideLoading();
       showError('Error searching: ' + err.message);
     });
@@ -954,11 +926,6 @@ function showError(message) {
 }
 
 function displayResults(data) {
-  console.log("Displaying results for", data.length, "items");
-  
-  // Hide error message
-  document.getElementById('errorMsg').style.display = 'none';
-  
   // Show containers
   document.getElementById('statsGrid').classList.add('show');
   document.getElementById('chartContainer').classList.add('show');
@@ -1021,8 +988,6 @@ function drawChart(data) {
   const labels = Object.keys(data);
   const values = Object.values(data);
   
-  console.log("Drawing chart with data:", data);
-  
   const ctx = document.getElementById('chart').getContext('2d');
   
   chartInstance = new Chart(ctx, {
@@ -1082,10 +1047,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
-  // Test connection on page load (only in development)
-  // Uncomment this line to test your connection:
-  // testConnection();
 });
 </script>
 
