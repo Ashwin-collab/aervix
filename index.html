@@ -24,13 +24,15 @@ body {
 .navbar {
   background: #0f172a;
   border-bottom: 1px solid #1e293b;
-  padding: 1rem 2rem;
+  padding: 1rem;
   position: sticky;
   top: 0;
   z-index: 1000;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .logo {
@@ -48,7 +50,8 @@ body {
 
 .nav-buttons {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -59,6 +62,7 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -74,7 +78,7 @@ body {
 .btn-secondary {
   background: transparent;
   color: #94a3b8;
-  border: 1px solid #334155;
+  border: 2px solid #334155;
 }
 
 .btn-secondary:hover {
@@ -83,7 +87,7 @@ body {
 }
 
 .btn-secondary.active {
-  background: #1e293b;
+  background: transparent;
   color: #ff6a2b;
   border-color: #ff6a2b;
 }
@@ -92,7 +96,7 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 2rem 1rem;
 }
 
 .page {
@@ -103,21 +107,24 @@ body {
   display: block;
 }
 
+/* ==================== PAGE HEADER ==================== */
 .page-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
 }
 
 .page-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   color: #fff;
 }
 
 .page-subtitle {
-  font-size: 1.125rem;
+  font-size: 1rem;
   color: #94a3b8;
+  line-height: 1.5;
 }
 
 /* ==================== CARDS ==================== */
@@ -125,22 +132,22 @@ body {
   background: #0f172a;
   border: 1px solid #1e293b;
   border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .card-title {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: #fff;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 /* ==================== FORMS ==================== */
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
 }
 
 .form-group {
@@ -156,7 +163,7 @@ body {
 .form-group label {
   font-weight: 500;
   color: #cbd5e1;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .form-group input,
@@ -165,10 +172,11 @@ body {
   background: #1e293b;
   border: 1px solid #334155;
   color: #e2e8f0;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-family: inherit;
+  width: 100%;
 }
 
 .form-group input:focus,
@@ -185,15 +193,23 @@ body {
 }
 
 .form-hint {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #64748b;
 }
 
 .form-actions {
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 2rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.form-actions .btn {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 /* ==================== MESSAGES ==================== */
@@ -231,11 +247,13 @@ body {
 .search-box {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .search-box input {
   flex: 1;
+  min-width: 200px;
   background: #1e293b;
   border: 1px solid #334155;
   color: #e2e8f0;
@@ -250,23 +268,16 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 106, 43, 0.1);
 }
 
-.search-box .btn-clear {
-  background: #1e293b;
-  color: #94a3b8;
-  border: 1px solid #334155;
-}
-
-.search-box .btn-clear:hover {
-  background: #334155;
-  color: #fff;
-}
-
 /* ==================== STATS ==================== */
 .stats-grid {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
+}
+
+.stats-grid.show {
+  display: grid;
 }
 
 .stat-card {
@@ -293,6 +304,11 @@ body {
 .chart-container {
   height: 350px;
   margin: 2rem 0;
+  display: none;
+}
+
+.chart-container.show {
+  display: block;
 }
 
 /* ==================== TABLE ==================== */
@@ -351,27 +367,6 @@ body {
 
 .ref-link:hover {
   text-decoration: underline;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 3rem 2rem;
-  color: #64748b;
-}
-
-.empty-state svg {
-  margin-bottom: 1rem;
-  opacity: 0.5;
-}
-
-.empty-state h3 {
-  font-size: 1.25rem;
-  color: #94a3b8;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state p {
-  font-size: 0.95rem;
 }
 
 /* ==================== MODAL ==================== */
@@ -513,28 +508,57 @@ body {
   }
 
   .nav-buttons {
-    gap: 0.5rem;
+    width: 100%;
+    justify-content: stretch;
   }
 
   .btn {
-    padding: 0.5rem 1rem;
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
     font-size: 0.85rem;
   }
 
   .page-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .search-box {
     flex-direction: column;
   }
 
+  .search-box input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .search-box button {
+    width: 100%;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .form-actions {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 
   .form-actions .btn {
-    width: 100%;
+    width: auto;
   }
 }
 </style>
@@ -549,7 +573,7 @@ body {
     </svg>
     <span class="logo-text">AERVIX</span>
   </div>
-  <div class="nav-buttons">
+  <div class="nav-buttons" id="navButtons">
     <button class="btn btn-secondary active" id="btnUpload" onclick="showPage('upload')">Upload</button>
     <button class="btn btn-secondary" id="btnProgress" onclick="showPage('progress')">Progress</button>
     <button class="btn btn-secondary" id="btnAbout" onclick="showAbout()">About Us</button>
@@ -567,7 +591,6 @@ body {
     </div>
 
     <div class="card">
-      <h2 class="card-title">Task Information</h2>
       <form id="uploadForm" onsubmit="uploadTask(event)">
         <div class="form-grid">
           <div class="form-group">
@@ -584,12 +607,12 @@ body {
             <label for="dept">Department *</label>
             <select id="dept" required>
               <option value="">Select Department</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Embedded Systems">Embedded Systems</option>
-              <option value="PCB Design">PCB Design</option>
-              <option value="IoT">IoT</option>
-              <option value="Robotics">Robotics</option>
-              <option value="Power Electronics">Power Electronics</option>
+              <option value="ECE">ECE</option>
+              <option value="EEE">EEE</option>
+              <option value="IT">IT</option>
+              <option value="CSE">CSE</option>
+              <option value="AIDS/AIML">AIDS/AIML</option>
+              <option value="MECHANICAL">MECHANICAL</option>
               <option value="Other">Other</option>
             </select>
           </div>
@@ -600,13 +623,13 @@ body {
           </div>
 
           <div class="form-group full">
-            <label for="reference">Reference Link </label>
+            <label for="reference">Reference Link (Optional)</label>
             <input type="url" id="reference" placeholder="https://example.com/your-project">
             <small class="form-hint">Add a link to your project documentation or reference</small>
           </div>
 
           <div class="form-group full">
-            <label for="description">Task Description</label>
+            <label for="description">Task Description (Optional)</label>
             <textarea id="description" rows="4" placeholder="Describe what you learned or accomplished..."></textarea>
           </div>
         </div>
@@ -625,18 +648,20 @@ body {
   <div id="progressPage" class="page">
     <div class="page-header">
       <h1 class="page-title">Progress Tracker</h1>
-      <p class="page-subtitle">View and analyze your engineering journey</p>
+      <p class="page-subtitle">View all uploaded tasks and track progress</p>
     </div>
 
+    <!-- Search Box -->
     <div class="card">
-      <h2 class="card-title">Search Tasks</h2>
       <div class="search-box">
         <input type="text" id="search" placeholder="Enter name to filter tasks...">
         <button class="btn btn-primary" onclick="searchTasks()">Search</button>
-        <button class="btn btn-clear" onclick="clearSearch()">Show All</button>
+        <button class="btn btn-secondary" onclick="loadAllTasks()">Show All</button>
       </div>
-      <div id="searchMsg" class="message"></div>
     </div>
+
+    <div id="loadingMsg" class="message loading">Loading tasks...</div>
+    <div id="errorMsg" class="message"></div>
 
     <!-- Statistics -->
     <div id="statsGrid" class="stats-grid">
@@ -645,28 +670,24 @@ body {
         <div class="stat-label">Total Tasks</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="uniqueUsers">0</div>
-        <div class="stat-label">Active Users</div>
+        <div class="stat-value" id="totalUsers">0</div>
+        <div class="stat-label">Total Users</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="totalDepts">0</div>
         <div class="stat-label">Departments</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-value" id="latestActivity">N/A</div>
-        <div class="stat-label">Latest Activity</div>
-      </div>
     </div>
 
     <!-- Chart -->
     <div id="chartContainer" class="card chart-container">
-      <h2 class="card-title">Department Distribution</h2>
+      <h3 style="color: #fff; margin-bottom: 1.5rem; font-size: 1.1rem;">Tasks by Department</h3>
       <canvas id="chart"></canvas>
     </div>
 
     <!-- Table -->
     <div id="tableContainer" class="card">
-      <h2 class="card-title">Task History</h2>
+      <h3 style="color: #fff; margin-bottom: 1.5rem; font-size: 1.1rem;">All Tasks</h3>
       <div id="tableWrapper" class="table-wrapper">
         <table class="data-table">
           <thead>
@@ -679,20 +700,7 @@ body {
               <th>Timestamp</th>
             </tr>
           </thead>
-          <tbody id="tableBody">
-            <tr>
-              <td colspan="6">
-                <div class="empty-state">
-                  <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                    <circle cx="32" cy="32" r="30" stroke="#334155" stroke-width="3"/>
-                    <path d="M32 20v24M20 32h24" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
-                  </svg>
-                  <h3>Loading tasks...</h3>
-                  <p>Please wait while we fetch the data</p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="tableBody"></tbody>
         </table>
       </div>
     </div>
@@ -739,16 +747,28 @@ body {
 
 <!-- Footer -->
 <footer class="footer">
-  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN AND DELIGHT</p>
+  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN K</p>
 </footer>
 
 <script>
 // ==================== CONFIGURATION ====================
-// REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
+// ⚠️ REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+const SCRIPT_URL = "YOUR_SCRIPT_URL_HERE";
 
 let chartInstance = null;
-let allTasksData = []; // Store all tasks globally
+
+// ==================== TEST CONNECTION ====================
+function testConnection() {
+  console.log("Testing connection to:", SCRIPT_URL);
+  fetch(SCRIPT_URL + "?action=test")
+    .then(res => res.json())
+    .then(data => {
+      console.log("Connection test result:", data);
+    })
+    .catch(err => {
+      console.error("Connection test failed:", err);
+    });
+}
 
 // ==================== PAGE NAVIGATION ====================
 function showPage(page) {
@@ -763,7 +783,7 @@ function showPage(page) {
   } else if (page === 'progress') {
     document.getElementById('progressPage').classList.add('active');
     document.getElementById('btnProgress').classList.add('active');
-    // Load all tasks when switching to progress page
+    // Automatically load all tasks when progress page is shown
     loadAllTasks();
   }
   
@@ -812,9 +832,15 @@ function uploadTask(event) {
     "&reference=" + encodeURIComponent(reference) +
     "&description=" + encodeURIComponent(description);
   
+  console.log("Uploading to:", url);
+  
   fetch(url)
-    .then(res => res.text())
+    .then(res => {
+      console.log("Upload response status:", res.status);
+      return res.text();
+    })
     .then(data => {
+      console.log("Upload response:", data);
       msg.className = 'message success show';
       msg.textContent = '✓ Task uploaded successfully!';
       
@@ -824,6 +850,7 @@ function uploadTask(event) {
       }, 2000);
     })
     .catch(err => {
+      console.error("Upload error:", err);
       msg.className = 'message error show';
       msg.textContent = '✕ Upload failed: ' + err.message;
     });
@@ -836,103 +863,125 @@ function resetUploadForm() {
 
 // ==================== LOAD ALL TASKS ====================
 function loadAllTasks() {
-  showMessage('searchMsg', 'loading', 'Loading all tasks...');
+  console.log("Loading all tasks from:", SCRIPT_URL);
+  
+  showLoading();
+  hideResults();
   
   const url = SCRIPT_URL + "?action=fetchAll";
   
   fetch(url)
-    .then(res => res.json())
+    .then(res => {
+      console.log("Fetch response status:", res.status);
+      if (!res.ok) {
+        throw new Error('Network response was not ok: ' + res.status);
+      }
+      return res.json();
+    })
     .then(data => {
-      allTasksData = data; // Store globally
+      console.log("Fetched data:", data);
+      hideLoading();
       
-      if (data.length === 0) {
-        showMessage('searchMsg', 'error', 'No tasks found in the system');
-        showEmptyState();
+      if (!data || data.length === 0) {
+        showError('No tasks found. Start by uploading your first task!');
         return;
       }
       
-      showMessage('searchMsg', 'success', `Showing all ${data.length} task(s)`);
       displayResults(data);
     })
     .catch(err => {
-      showMessage('searchMsg', 'error', 'Error loading tasks: ' + err.message);
-      showEmptyState();
+      console.error("Fetch error:", err);
+      hideLoading();
+      showError('Error loading tasks: ' + err.message + '. Please check your Script URL and deployment settings.');
     });
 }
 
-// ==================== SEARCH FUNCTIONS ====================
+// ==================== SEARCH TASKS BY NAME ====================
 function searchTasks() {
   const name = document.getElementById('search').value.trim();
   
   if (!name) {
-    loadAllTasks();
+    showError('Please enter a name to search');
     return;
   }
   
-  showMessage('searchMsg', 'loading', 'Searching...');
+  console.log("Searching for:", name);
   
-  // Filter from allTasksData if available, otherwise fetch
-  if (allTasksData.length > 0) {
-    const filtered = allTasksData.filter(task => 
-      task.name.toLowerCase().includes(name.toLowerCase())
-    );
-    
-    if (filtered.length === 0) {
-      showMessage('searchMsg', 'error', 'No records found for "' + name + '"');
-      return;
-    }
-    
-    showMessage('searchMsg', 'success', `Found ${filtered.length} task(s) for "${name}"`);
-    displayResults(filtered);
-  } else {
-    // Fallback to API search
-    const url = SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name);
-    
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        if (data.length === 0) {
-          showMessage('searchMsg', 'error', 'No records found for "' + name + '"');
-          return;
-        }
-        
-        showMessage('searchMsg', 'success', `Found ${data.length} task(s) for "${name}"`);
-        displayResults(data);
-      })
-      .catch(err => {
-        showMessage('searchMsg', 'error', 'Error: ' + err.message);
-      });
-  }
+  showLoading();
+  hideResults();
+  
+  const url = SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name);
+  
+  fetch(url)
+    .then(res => {
+      console.log("Search response status:", res.status);
+      if (!res.ok) {
+        throw new Error('Network response was not ok: ' + res.status);
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log("Search results:", data);
+      hideLoading();
+      
+      if (!data || data.length === 0) {
+        showError('No tasks found for "' + name + '"');
+        return;
+      }
+      
+      displayResults(data);
+    })
+    .catch(err => {
+      console.error("Search error:", err);
+      hideLoading();
+      showError('Error searching: ' + err.message);
+    });
 }
 
-function clearSearch() {
-  document.getElementById('search').value = '';
-  loadAllTasks();
+function showLoading() {
+  document.getElementById('loadingMsg').style.display = 'block';
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+function hideLoading() {
+  document.getElementById('loadingMsg').style.display = 'none';
+}
+
+function showError(message) {
+  document.getElementById('errorMsg').className = 'message error show';
+  document.getElementById('errorMsg').textContent = message;
+  document.getElementById('errorMsg').style.display = 'block';
 }
 
 function displayResults(data) {
+  console.log("Displaying results for", data.length, "items");
+  
+  // Hide error message
+  document.getElementById('errorMsg').style.display = 'none';
+  
+  // Show containers
+  document.getElementById('statsGrid').classList.add('show');
+  document.getElementById('chartContainer').classList.add('show');
+  
   // Update stats
   document.getElementById('totalTasks').textContent = data.length;
   
+  // Count unique users
   const uniqueUsers = new Set(data.map(r => r.email));
-  document.getElementById('uniqueUsers').textContent = uniqueUsers.size;
+  document.getElementById('totalUsers').textContent = uniqueUsers.size;
   
+  // Count unique departments
   const depts = new Set(data.map(r => r.dept));
   document.getElementById('totalDepts').textContent = depts.size;
-  
-  if (data.length > 0) {
-    const latest = new Date(data[data.length - 1].time);
-    document.getElementById('latestActivity').textContent = latest.toLocaleDateString();
-  }
   
   // Update table
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = '';
   
-  // Sort by timestamp descending (newest first)
-  const sortedData = [...data].sort((a, b) => new Date(b.time) - new Date(a.time));
+  // Sort by timestamp (newest first)
+  data.sort((a, b) => new Date(b.time) - new Date(a.time));
   
-  sortedData.forEach(r => {
+  data.forEach(r => {
     const time = new Date(r.time).toLocaleString();
     const refLink = r.reference ? 
       `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
@@ -950,7 +999,7 @@ function displayResults(data) {
     `;
   });
   
-  // Update chart - show department distribution
+  // Update chart - show tasks by department
   const deptCount = {};
   data.forEach(r => {
     deptCount[r.dept] = (deptCount[r.dept] || 0) + 1;
@@ -958,40 +1007,9 @@ function displayResults(data) {
   drawChart(deptCount);
 }
 
-function showEmptyState() {
-  const tbody = document.getElementById('tableBody');
-  tbody.innerHTML = `
-    <tr>
-      <td colspan="6">
-        <div class="empty-state">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <circle cx="32" cy="32" r="30" stroke="#334155" stroke-width="3"/>
-            <path d="M22 28 L32 38 L42 28" stroke="#334155" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <h3>No tasks found</h3>
-          <p>Start by uploading your first task!</p>
-        </div>
-      </td>
-    </tr>
-  `;
-  
-  // Reset stats
-  document.getElementById('totalTasks').textContent = '0';
-  document.getElementById('uniqueUsers').textContent = '0';
-  document.getElementById('totalDepts').textContent = '0';
-  document.getElementById('latestActivity').textContent = 'N/A';
-  
-  // Clear chart
-  if (chartInstance) {
-    chartInstance.destroy();
-    chartInstance = null;
-  }
-}
-
-function showMessage(id, type, text) {
-  const msg = document.getElementById(id);
-  msg.className = 'message ' + type + ' show';
-  msg.textContent = text;
+function hideResults() {
+  document.getElementById('statsGrid').classList.remove('show');
+  document.getElementById('chartContainer').classList.remove('show');
 }
 
 // ==================== CHART FUNCTIONS ====================
@@ -1002,6 +1020,8 @@ function drawChart(data) {
   
   const labels = Object.keys(data);
   const values = Object.values(data);
+  
+  console.log("Drawing chart with data:", data);
   
   const ctx = document.getElementById('chart').getContext('2d');
   
@@ -1054,11 +1074,18 @@ function drawChart(data) {
 
 // Search on Enter key
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('search').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      searchTasks();
-    }
-  });
+  const searchInput = document.getElementById('search');
+  if (searchInput) {
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchTasks();
+      }
+    });
+  }
+  
+  // Test connection on page load (only in development)
+  // Uncomment this line to test your connection:
+  // testConnection();
 });
 </script>
 
