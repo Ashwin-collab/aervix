@@ -15,15 +15,15 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-  background: #000000;
-  color: #ffffff;
+  background: #ffffff;
+  color: #000000;
   min-height: 100vh;
 }
 
 /* ==================== NAVIGATION ==================== */
 .navbar {
-  background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
-  border-bottom: 2px solid #ff6b00;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+  border-bottom: 3px solid #ff6b00;
   padding: 1rem;
   position: sticky;
   top: 0;
@@ -33,7 +33,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
@@ -70,17 +70,20 @@ body {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn {
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   white-space: nowrap;
+  min-width: fit-content;
 }
 
 .btn-primary {
@@ -95,20 +98,20 @@ body {
 }
 
 .btn-secondary {
-  background: transparent;
-  color: #ffffff;
-  border: 2px solid #333;
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #ff6b00;
 }
 
 .btn-secondary:hover {
-  background: #1a1a1a;
+  background: #ff6b00;
   border-color: #ff6b00;
-  color: #ff6b00;
+  color: #ffffff;
 }
 
 .btn-secondary.active {
-  background: #1a1a1a;
-  color: #ff6b00;
+  background: #ff6b00;
+  color: #ffffff;
   border-color: #ff6b00;
 }
 
@@ -155,18 +158,18 @@ body {
 
 .page-subtitle {
   font-size: 1.1rem;
-  color: #999;
+  color: #666666;
   line-height: 1.5;
 }
 
 /* ==================== CARDS ==================== */
 .card {
-  background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
-  border: 2px solid #222;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .card-title {
@@ -202,9 +205,9 @@ body {
 .form-group input,
 .form-group select,
 .form-group textarea {
-  background: #1a1a1a;
-  border: 2px solid #333;
-  color: #ffffff;
+  background: #f9f9f9;
+  border: 2px solid #e0e0e0;
+  color: #000000;
   padding: 1rem;
   border-radius: 8px;
   font-size: 1rem;
@@ -218,7 +221,8 @@ body {
 .form-group textarea:focus {
   outline: none;
   border-color: #ff6b00;
-  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
 }
 
 .form-group textarea {
@@ -228,7 +232,7 @@ body {
 
 .form-hint {
   font-size: 0.85rem;
-  color: #666;
+  color: #888888;
 }
 
 .form-actions {
@@ -252,7 +256,7 @@ body {
 .image-upload-section {
   margin-top: 2rem;
   padding: 2rem;
-  background: #0a0a0a;
+  background: #f9f9f9;
   border: 2px dashed #ff6b00;
   border-radius: 12px;
   text-align: center;
@@ -261,7 +265,7 @@ body {
 .upload-label {
   display: inline-block;
   padding: 1rem 2rem;
-  background: #1a1a1a;
+  background: #ffffff;
   border: 2px solid #ff6b00;
   border-radius: 8px;
   cursor: pointer;
@@ -272,7 +276,7 @@ body {
 
 .upload-label:hover {
   background: #ff6b00;
-  color: #000;
+  color: #ffffff;
 }
 
 #imageInput {
@@ -329,7 +333,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   z-index: 9999;
   justify-content: center;
   align-items: center;
@@ -341,7 +345,7 @@ body {
 }
 
 .spinner {
-  border: 6px solid #333;
+  border: 6px solid #e0e0e0;
   border-top: 6px solid #ff6b00;
   border-radius: 50%;
   width: 80px;
@@ -387,12 +391,12 @@ body {
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+  background: #ffffff;
   border: 2px solid #ff6b00;
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.15);
 }
 
 .stat-value {
@@ -407,7 +411,7 @@ body {
 
 .stat-label {
   font-size: 1rem;
-  color: #999;
+  color: #666666;
   font-weight: 600;
 }
 
@@ -416,10 +420,10 @@ body {
   height: 350px;
   margin: 2rem 0;
   display: none;
-  background: #0a0a0a;
+  background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
-  border: 2px solid #222;
+  border: 2px solid #e0e0e0;
 }
 
 .chart-container.show {
@@ -430,7 +434,7 @@ body {
 .table-wrapper {
   overflow-x: auto;
   border-radius: 12px;
-  border: 2px solid #222;
+  border: 2px solid #e0e0e0;
 }
 
 .data-table {
@@ -447,30 +451,31 @@ body {
   padding: 1.2rem 1rem;
   text-align: left;
   font-weight: 700;
-  color: #000;
-  border-bottom: 3px solid #000;
+  color: #ffffff;
+  border-bottom: 3px solid #ff6b00;
 }
 
 .data-table tbody tr {
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid #e0e0e0;
   transition: all 0.3s;
+  background: #ffffff;
 }
 
 .data-table tbody tr:hover {
-  background: #1a1a1a;
+  background: #fff5f0;
   transform: scale(1.01);
 }
 
 .data-table td {
   padding: 1.2rem 1rem;
-  color: #ffffff;
+  color: #000000;
 }
 
 .badge {
   display: inline-block;
   padding: 0.5rem 1rem;
   background: linear-gradient(135deg, #ff6b00 0%, #ff8c33 100%);
-  color: #000;
+  color: #ffffff;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 700;
@@ -481,14 +486,15 @@ body {
   text-decoration: none;
   font-weight: 600;
   padding: 0.5rem 1rem;
-  background: #1a1a1a;
+  background: #fff5f0;
   border-radius: 6px;
   display: inline-block;
+  border: 1px solid #ff6b00;
 }
 
 .ref-link:hover {
   background: #ff6b00;
-  color: #000;
+  color: #ffffff;
 }
 
 /* ==================== MODAL ==================== */
@@ -500,7 +506,7 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.7);
   animation: fadeIn 0.3s;
 }
 
@@ -516,7 +522,7 @@ body {
 }
 
 .modal-content {
-  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  background: #ffffff;
   border: 3px solid #ff6b00;
   border-radius: 16px;
   padding: 2.5rem;
@@ -524,7 +530,7 @@ body {
   width: 90%;
   position: relative;
   animation: slideIn 0.3s;
-  box-shadow: 0 10px 50px rgba(255, 107, 0, 0.5);
+  box-shadow: 0 10px 50px rgba(255, 107, 0, 0.3);
 }
 
 @keyframes slideIn {
@@ -553,7 +559,7 @@ body {
 .modal-body {
   text-align: center;
   line-height: 1.8;
-  color: #ffffff;
+  color: #000000;
 }
 
 .modal-body input {
@@ -594,15 +600,15 @@ body {
 
 /* ==================== FOOTER ==================== */
 .footer {
-  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
-  border-top: 2px solid #ff6b00;
+  background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+  border-top: 3px solid #ff6b00;
   padding: 2rem;
   text-align: center;
   margin-top: 4rem;
 }
 
 .footer-text {
-  color: #999;
+  color: #666666;
   font-size: 0.9rem;
 }
 
@@ -616,16 +622,30 @@ body {
     font-size: 2rem;
   }
 
+  .navbar {
+    flex-direction: column;
+    padding: 1rem 0.5rem;
+  }
+
+  .logo {
+    margin-bottom: 0.5rem;
+  }
+
   .nav-buttons {
     width: 100%;
-    justify-content: stretch;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
 
   .btn {
-    flex: 1;
-    min-width: 0;
-    padding: 0.625rem 1rem;
-    font-size: 0.85rem;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+    width: 100%;
+  }
+
+  .btn-admin {
+    grid-column: 1 / -1;
   }
 
   .search-box {
@@ -959,8 +979,8 @@ body {
 
 <script>
 // ==================== CONFIGURATION ====================
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
-const IMAGE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0VEHw0smnDiDgW8pBMwqreH-yfpBRWB8SQ-J5vlmh7Ufp7FzXK7IrXCVRFBtXf1-Nlw/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDqyUYcdBrlL4t6I4IDaCvBTl0y-PNG0gP3lc9FTrjR0bK2gJFUkgrYq90mzrO9I7cwg/exec";
+const IMAGE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykJSoIzc9m-cq3kIy83BWpL9qLxvSIpWadvhqmkbndo2dPd1YiZSquc6gBH4_MRIHL5w/exec";
 const ADMIN_PASSWORD = "AERVIX";
 
 let chartInstance = null;
@@ -1139,7 +1159,7 @@ function displayCommunityResults(data) {
     const time = new Date(r.time).toLocaleDateString();
     const refLink = r.reference ? 
       `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
-      '<span style="color:#666;">N/A</span>';
+      '<span style="color:#888888;">N/A</span>';
     
     tbody.innerHTML += `
       <tr>
@@ -1197,17 +1217,17 @@ function drawChartCommunity(data) {
       scales: {
         y: {
           beginAtZero: true,
-          ticks: { color: '#999', stepSize: 1 },
-          grid: { color: '#222' }
+          ticks: { color: '#666666', stepSize: 1 },
+          grid: { color: '#e0e0e0' }
         },
         x: {
-          ticks: { color: '#999' },
-          grid: { color: '#222' }
+          ticks: { color: '#666666' },
+          grid: { color: '#e0e0e0' }
         }
       },
       plugins: {
         legend: {
-          labels: { color: '#fff', font: { size: 14 } }
+          labels: { color: '#000000', font: { size: 14 } }
         }
       }
     }
@@ -1279,7 +1299,7 @@ function displayResults(data) {
     const time = new Date(r.time).toLocaleString();
     const refLink = r.reference ? 
       `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
-      '<span style="color:#666;">N/A</span>';
+      '<span style="color:#888888;">N/A</span>';
     
     tbody.innerHTML += `
       <tr>
@@ -1343,17 +1363,17 @@ function drawChart(data) {
       scales: {
         y: {
           beginAtZero: true,
-          ticks: { color: '#999', stepSize: 1 },
-          grid: { color: '#222' }
+          ticks: { color: '#666666', stepSize: 1 },
+          grid: { color: '#e0e0e0' }
         },
         x: {
-          ticks: { color: '#999' },
-          grid: { color: '#222' }
+          ticks: { color: '#666666' },
+          grid: { color: '#e0e0e0' }
         }
       },
       plugins: {
         legend: {
-          labels: { color: '#fff', font: { size: 14 } }
+          labels: { color: '#000000', font: { size: 14 } }
         }
       }
     }
@@ -1418,7 +1438,7 @@ function displayAdminResults(data) {
     const time = new Date(r.time).toLocaleString();
     const refLink = r.reference ? 
       `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
-      '<span style="color:#666;">N/A</span>';
+      '<span style="color:#888888;">N/A</span>';
     
     tbody.innerHTML += `
       <tr>
@@ -1464,17 +1484,17 @@ function drawChartAdmin(data) {
       scales: {
         y: {
           beginAtZero: true,
-          ticks: { color: '#999', stepSize: 1 },
-          grid: { color: '#222' }
+          ticks: { color: '#666666', stepSize: 1 },
+          grid: { color: '#e0e0e0' }
         },
         x: {
-          ticks: { color: '#999' },
-          grid: { color: '#222' }
+          ticks: { color: '#666666' },
+          grid: { color: '#e0e0e0' }
         }
       },
       plugins: {
         legend: {
-          labels: { color: '#fff', font: { size: 14 } }
+          labels: { color: '#000000', font: { size: 14 } }
         }
       }
     }
