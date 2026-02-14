@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AERVIX - Hardware Engineering Platform</title>
-<script src="https://script.google.com/macros/s/AKfycbyXtIUo2LCwwstXLSCGr8JizwZ8pC2BgoSSVVvqrv_wq9zq4zY6-IgFimBFu-wS6WNe1w/exec"></script>
+<title>AERVIX - Professional Engineering Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 /* ==================== RESET & BASE ==================== */
 * {
@@ -15,15 +15,15 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-  background: #0b1220;
-  color: #e2e8f0;
+  background: #000000;
+  color: #ffffff;
   min-height: 100vh;
 }
 
 /* ==================== NAVIGATION ==================== */
 .navbar {
-  background: #0f172a;
-  border-bottom: 1px solid #1e293b;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+  border-bottom: 2px solid #ff6b00;
   padding: 1rem;
   position: sticky;
   top: 0;
@@ -33,6 +33,7 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
 }
 
 .logo {
@@ -42,10 +43,27 @@ body {
   cursor: pointer;
 }
 
+.logo-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #ff6b00 0%, #ff8c33 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #000;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.5);
+}
+
 .logo-text {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ff6a2b;
+  background: linear-gradient(135deg, #ff6b00 0%, #ffaa66 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nav-buttons {
@@ -55,41 +73,52 @@ body {
 }
 
 .btn {
-  padding: 0.625rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
   font-size: 0.95rem;
   white-space: nowrap;
 }
 
 .btn-primary {
-  background: #ff6a2b;
-  color: white;
+  background: linear-gradient(135deg, #ff6b00 0%, #ff8c33 100%);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
 }
 
 .btn-primary:hover {
-  background: #e55a1b;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.6);
 }
 
 .btn-secondary {
   background: transparent;
-  color: #94a3b8;
-  border: 2px solid #334155;
+  color: #ffffff;
+  border: 2px solid #333;
 }
 
 .btn-secondary:hover {
-  background: #1e293b;
-  color: #fff;
+  background: #1a1a1a;
+  border-color: #ff6b00;
+  color: #ff6b00;
 }
 
 .btn-secondary.active {
-  background: transparent;
-  color: #ff6a2b;
-  border-color: #ff6a2b;
+  background: #1a1a1a;
+  color: #ff6b00;
+  border-color: #ff6b00;
+}
+
+.btn-admin {
+  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+  color: #fff;
+}
+
+.btn-admin:hover {
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6);
 }
 
 /* ==================== MAIN CONTENT ==================== */
@@ -115,41 +144,43 @@ body {
 }
 
 .page-title {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
   margin-bottom: 0.5rem;
-  color: #fff;
+  background: linear-gradient(135deg, #ff6b00 0%, #ffaa66 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .page-subtitle {
-  font-size: 1rem;
-  color: #94a3b8;
+  font-size: 1.1rem;
+  color: #999;
   line-height: 1.5;
-}
-  color: #94a3b8;
 }
 
 /* ==================== CARDS ==================== */
 .card {
-  background: #0f172a;
-  border: 1px solid #1e293b;
+  background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+  border: 2px solid #222;
   border-radius: 12px;
-  padding: 1.5rem 1rem;
-  margin-bottom: 1.5rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .card-title {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 1.25rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ff6b00;
+  margin-bottom: 1.5rem;
 }
 
 /* ==================== FORMS ==================== */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .form-group {
@@ -163,30 +194,31 @@ body {
 }
 
 .form-group label {
-  font-weight: 500;
-  color: #cbd5e1;
-  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ff6b00;
+  font-size: 0.95rem;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #e2e8f0;
-  padding: 0.875rem 1rem;
+  background: #1a1a1a;
+  border: 2px solid #333;
+  color: #ffffff;
+  padding: 1rem;
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
   width: 100%;
+  transition: all 0.3s;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #ff6a2b;
-  box-shadow: 0 0 0 3px rgba(255, 106, 43, 0.1);
+  border-color: #ff6b00;
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
 }
 
 .form-group textarea {
@@ -195,15 +227,15 @@ body {
 }
 
 .form-hint {
-  font-size: 0.8rem;
-  color: #64748b;
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .form-actions {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .form-actions .btn {
@@ -212,14 +244,58 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 1.1rem;
+  padding: 1rem;
+}
+
+/* ==================== IMAGE UPLOAD ==================== */
+.image-upload-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: #0a0a0a;
+  border: 2px dashed #ff6b00;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.upload-label {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: #1a1a1a;
+  border: 2px solid #ff6b00;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #ff6b00;
+  font-weight: 600;
+}
+
+.upload-label:hover {
+  background: #ff6b00;
+  color: #000;
+}
+
+#imageInput {
+  display: none;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  max-width: 300px;
+  max-height: 300px;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #ff6b00;
+  border-radius: 8px;
 }
 
 /* ==================== MESSAGES ==================== */
 .message {
   margin: 1rem 0;
-  padding: 0.875rem 1.25rem;
+  padding: 1rem 1.5rem;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   display: none;
 }
 
@@ -228,53 +304,82 @@ body {
 }
 
 .message.success {
-  background: rgba(74, 222, 128, 0.1);
-  color: #4ade80;
-  border: 1px solid rgba(74, 222, 128, 0.2);
+  background: rgba(0, 255, 0, 0.1);
+  color: #00ff00;
+  border: 2px solid rgba(0, 255, 0, 0.3);
 }
 
 .message.error {
-  background: rgba(248, 113, 113, 0.1);
-  color: #f87171;
-  border: 1px solid rgba(248, 113, 113, 0.2);
+  background: rgba(255, 0, 0, 0.1);
+  color: #ff0000;
+  border: 2px solid rgba(255, 0, 0, 0.3);
 }
 
 .message.loading {
-  background: rgba(96, 165, 250, 0.1);
-  color: #60a5fa;
-  border: 1px solid rgba(96, 165, 250, 0.2);
+  background: rgba(255, 107, 0, 0.1);
+  color: #ff6b00;
+  border: 2px solid rgba(255, 107, 0, 0.3);
+}
+
+/* ==================== LOADING SPINNER ==================== */
+.spinner-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.spinner-overlay.show {
+  display: flex;
+}
+
+.spinner {
+  border: 6px solid #333;
+  border-top: 6px solid #ff6b00;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner-text {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: #ff6b00;
+  font-weight: 600;
 }
 
 /* ==================== SEARCH ==================== */
 .search-box {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .search-box input {
   flex: 1;
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #e2e8f0;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: #ff6a2b;
-  box-shadow: 0 0 0 3px rgba(255, 106, 43, 0.1);
+  min-width: 200px;
 }
 
 /* ==================== STATS ==================== */
 .stats-grid {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
-  display: none;
 }
 
 .stats-grid.show {
@@ -282,23 +387,28 @@ body {
 }
 
 .stat-card {
-  background: #0f172a;
-  border: 1px solid #1e293b;
+  background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+  border: 2px solid #ff6b00;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 2rem;
   text-align: center;
+  box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
 }
 
 .stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #ff6a2b;
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff6b00 0%, #ffaa66 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 0.5rem;
 }
 
 .stat-label {
-  font-size: 0.9rem;
-  color: #94a3b8;
+  font-size: 1rem;
+  color: #999;
+  font-weight: 600;
 }
 
 /* ==================== CHART ==================== */
@@ -306,6 +416,10 @@ body {
   height: 350px;
   margin: 2rem 0;
   display: none;
+  background: #0a0a0a;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid #222;
 }
 
 .chart-container.show {
@@ -315,13 +429,8 @@ body {
 /* ==================== TABLE ==================== */
 .table-wrapper {
   overflow-x: auto;
-  border-radius: 8px;
-  border: 1px solid #1e293b;
-  display: none;
-}
-
-.table-wrapper.show {
-  display: block;
+  border-radius: 12px;
+  border: 2px solid #222;
 }
 
 .data-table {
@@ -331,48 +440,55 @@ body {
 }
 
 .data-table thead {
-  background: #1e293b;
+  background: linear-gradient(135deg, #ff6b00 0%, #ff8c33 100%);
 }
 
 .data-table th {
-  padding: 1rem;
+  padding: 1.2rem 1rem;
   text-align: left;
-  font-weight: 600;
-  color: #cbd5e1;
-  border-bottom: 2px solid #334155;
+  font-weight: 700;
+  color: #000;
+  border-bottom: 3px solid #000;
 }
 
 .data-table tbody tr {
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid #222;
+  transition: all 0.3s;
 }
 
 .data-table tbody tr:hover {
-  background: #1e293b;
+  background: #1a1a1a;
+  transform: scale(1.01);
 }
 
 .data-table td {
-  padding: 1rem;
-  color: #e2e8f0;
+  padding: 1.2rem 1rem;
+  color: #ffffff;
 }
 
 .badge {
   display: inline-block;
-  padding: 0.375rem 0.75rem;
-  background: rgba(255, 106, 43, 0.1);
-  color: #ff6a2b;
-  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ff6b00 0%, #ff8c33 100%);
+  color: #000;
+  border-radius: 20px;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .ref-link {
-  color: #60a5fa;
+  color: #ff6b00;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  background: #1a1a1a;
+  border-radius: 6px;
+  display: inline-block;
 }
 
 .ref-link:hover {
-  text-decoration: underline;
+  background: #ff6b00;
+  color: #000;
 }
 
 /* ==================== MODAL ==================== */
@@ -384,7 +500,7 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.95);
   animation: fadeIn 0.3s;
 }
 
@@ -400,14 +516,15 @@ body {
 }
 
 .modal-content {
-  background: #0f172a;
-  border: 1px solid #1e293b;
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border: 3px solid #ff6b00;
   border-radius: 16px;
   padding: 2.5rem;
   max-width: 500px;
   width: 90%;
   position: relative;
   animation: slideIn 0.3s;
+  box-shadow: 0 10px 50px rgba(255, 107, 0, 0.5);
 }
 
 @keyframes slideIn {
@@ -426,116 +543,77 @@ body {
   margin-bottom: 2rem;
 }
 
-.modal-icon {
-  margin-bottom: 1.5rem;
-  display: flex;
-  justify-content: center;
-}
-
 .modal-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
+  color: #ff6b00;
   margin-bottom: 0.5rem;
-}
-
-.modal-subtitle {
-  color: #94a3b8;
-  font-size: 1rem;
 }
 
 .modal-body {
   text-align: center;
   line-height: 1.8;
-  color: #cbd5e1;
+  color: #ffffff;
+}
+
+.modal-body input {
+  width: 100%;
+  margin: 1rem 0;
 }
 
 .developer-name {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ff6a2b;
+  background: linear-gradient(135deg, #ff6b00 0%, #ffaa66 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 1.5rem 0;
-}
-
-.modal-info {
-  margin: 1rem 0;
-  font-size: 0.95rem;
 }
 
 .close-btn {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: transparent;
+  top: 1rem;
+  right: 1rem;
+  background: #ff0000;
   border: none;
-  color: #94a3b8;
+  color: #fff;
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   line-height: 1;
   transition: all 0.2s;
+  border-radius: 8px;
+  font-weight: 700;
 }
 
 .close-btn:hover {
-  color: #fff;
+  background: #cc0000;
   transform: rotate(90deg);
-}
-
-.modal-footer {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #1e293b;
-  text-align: center;
-}
-
-.modal-footer-text {
-  color: #64748b;
-  font-size: 0.9rem;
 }
 
 /* ==================== FOOTER ==================== */
 .footer {
-  background: #0f172a;
-  border-top: 1px solid #1e293b;
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  border-top: 2px solid #ff6b00;
   padding: 2rem;
   text-align: center;
   margin-top: 4rem;
 }
 
 .footer-text {
-  color: #64748b;
+  color: #999;
   font-size: 0.9rem;
+}
+
+.footer-text strong {
+  color: #ff6b00;
 }
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-buttons {
-    gap: 0.5rem;
-  }
-
-  .btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-  }
-
   .page-title {
     font-size: 2rem;
-  }
-
-  .search-box {
-    flex-direction: column;
-  }
-
-  .form-actions {
-    flex-direction: column;
-  }
-
-  .form-actions .btn {
-    width: 100%;
   }
 
   .nav-buttons {
@@ -546,16 +624,31 @@ body {
   .btn {
     flex: 1;
     min-width: 0;
+    padding: 0.625rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box input,
+  .search-box button {
+    width: 100%;
   }
 
   .data-table th,
   .data-table td {
-    padding: 0.75rem 0.5rem;
-    font-size: 0.8rem;
+    padding: 0.8rem 0.5rem;
+    font-size: 0.85rem;
   }
 
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+
+  .form-actions .btn {
+    font-size: 1rem;
   }
 }
 
@@ -571,24 +664,30 @@ body {
 
   .form-actions .btn {
     width: auto;
+    min-width: 200px;
   }
 }
 </style>
 </head>
 <body>
 
+<!-- Loading Spinner Overlay -->
+<div id="spinnerOverlay" class="spinner-overlay">
+  <div class="spinner"></div>
+  <div class="spinner-text">Uploading... Please Wait</div>
+</div>
+
 <!-- Navigation -->
 <nav class="navbar">
   <div class="logo" onclick="showPage('upload')">
-    <svg width="40" height="40" viewBox="0 0 40 40">
-      <path d="M20 5 L35 35 L5 35 Z" fill="#ff6a2b"/>
-    </svg>
+    <div class="logo-icon">A</div>
     <span class="logo-text">AERVIX</span>
   </div>
-  <div class="nav-buttons" id="navButtons">
+  <div class="nav-buttons">
     <button class="btn btn-secondary active" id="btnUpload" onclick="showPage('upload')">Upload</button>
-    <button class="btn btn-secondary" id="btnProgress" onclick="showPage('progress')">Progress</button>
-    <button class="btn btn-secondary" id="btnAbout" onclick="showAbout()">About Us</button>
+    <button class="btn btn-secondary" id="btnCommunity" onclick="showPage('community')">Community Tasks</button>
+    <button class="btn btn-secondary" id="btnProgress" onclick="showPage('progress')">My Progress</button>
+    <button class="btn btn-admin" onclick="showAdminLogin()">Admin</button>
   </div>
 </nav>
 
@@ -599,7 +698,7 @@ body {
   <div id="uploadPage" class="page active">
     <div class="page-header">
       <h1 class="page-title">Upload Task</h1>
-      <p class="page-subtitle">Log your hardware engineering activities</p>
+      <p class="page-subtitle">Submit your hardware engineering projects and achievements</p>
     </div>
 
     <div class="card">
@@ -637,7 +736,7 @@ body {
           <div class="form-group full">
             <label for="reference">Reference Link (Optional)</label>
             <input type="url" id="reference" placeholder="https://example.com/your-project">
-            <small class="form-hint">Add a link to your project documentation or reference</small>
+            <small class="form-hint">Add a link to your project documentation</small>
           </div>
 
           <div class="form-group full">
@@ -646,28 +745,89 @@ body {
           </div>
         </div>
 
+        <!-- Image Upload Section -->
+        <div class="image-upload-section">
+          <h3 style="color: #ff6b00; margin-bottom: 1rem;">Upload Proof Image</h3>
+          <label for="imageInput" class="upload-label">
+            📷 Choose Image
+          </label>
+          <input type="file" id="imageInput" accept="image/*" onchange="previewImage()">
+          <img id="imagePreview" class="image-preview" />
+        </div>
+
         <div id="uploadMsg" class="message"></div>
 
         <div class="form-actions">
-          <button type="button" class="btn btn-secondary" onclick="resetUploadForm()">Clear</button>
-          <button type="submit" class="btn btn-primary">Upload Task</button>
+          <button type="button" class="btn btn-secondary" onclick="resetUploadForm()">Clear Form</button>
+          <button type="submit" class="btn btn-primary">🚀 Upload Task</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- COMMUNITY TASKS PAGE -->
+  <div id="communityPage" class="page">
+    <div class="page-header">
+      <h1 class="page-title">Community Tasks</h1>
+      <p class="page-subtitle">View all tasks submitted by the AERVIX community</p>
+    </div>
+
+    <div id="loadingMsgCommunity" class="message loading">Loading community tasks...</div>
+    <div id="errorMsgCommunity" class="message"></div>
+
+    <!-- Statistics -->
+    <div id="statsGridCommunity" class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalTasksCommunity">0</div>
+        <div class="stat-label">Total Tasks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalUsersCommunity">0</div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalDeptsCommunity">0</div>
+        <div class="stat-label">Departments</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div id="chartContainerCommunity" class="card chart-container">
+      <h3 class="card-title">Tasks by Department</h3>
+      <canvas id="chartCommunity"></canvas>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+      <h3 class="card-title">All Community Tasks</h3>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Department</th>
+              <th>Task</th>
+              <th>Reference</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="tableBodyCommunity"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
   <!-- PROGRESS PAGE -->
   <div id="progressPage" class="page">
     <div class="page-header">
-      <h1 class="page-title">Progress Tracker</h1>
-      <p class="page-subtitle">View all uploaded tasks and track progress</p>
+      <h1 class="page-title">My Progress</h1>
+      <p class="page-subtitle">Track your personal achievements and growth</p>
     </div>
 
-    <!-- Search Box -->
     <div class="card">
       <div class="search-box">
-        <input type="text" id="search" placeholder="Enter name to filter tasks...">
-        <button class="btn btn-primary" onclick="searchTasks()">Search</button>
+        <input type="text" id="search" placeholder="Enter your name to view progress...">
+        <button class="btn btn-primary" onclick="searchTasks()">🔍 Search</button>
         <button class="btn btn-secondary" onclick="loadAllTasks()">Show All</button>
       </div>
     </div>
@@ -675,7 +835,6 @@ body {
     <div id="loadingMsg" class="message loading">Loading tasks...</div>
     <div id="errorMsg" class="message"></div>
 
-    <!-- Statistics -->
     <div id="statsGrid" class="stats-grid">
       <div class="stat-card">
         <div class="stat-value" id="totalTasks">0</div>
@@ -691,16 +850,14 @@ body {
       </div>
     </div>
 
-    <!-- Chart -->
     <div id="chartContainer" class="card chart-container">
-      <h3 style="color: #fff; margin-bottom: 1.5rem; font-size: 1.1rem;">Tasks by Department</h3>
+      <h3 class="card-title">Tasks by Department</h3>
       <canvas id="chart"></canvas>
     </div>
 
-    <!-- Table -->
-    <div id="tableContainer" class="card">
-      <h3 style="color: #fff; margin-bottom: 1.5rem; font-size: 1.1rem;">All Tasks</h3>
-      <div id="tableWrapper" class="table-wrapper show">
+    <div class="card">
+      <h3 class="card-title">Task History</h3>
+      <div class="table-wrapper">
         <table class="data-table">
           <thead>
             <tr>
@@ -718,97 +875,138 @@ body {
     </div>
   </div>
 
+  <!-- ADMIN PAGE -->
+  <div id="adminPage" class="page">
+    <div class="page-header">
+      <h1 class="page-title">Admin Panel</h1>
+      <p class="page-subtitle">Complete database overview</p>
+    </div>
+
+    <div class="card">
+      <button class="btn btn-primary" onclick="loadAdminData()" style="width: 100%;">🔄 Refresh Data</button>
+    </div>
+
+    <div id="loadingMsgAdmin" class="message loading">Loading admin data...</div>
+    <div id="errorMsgAdmin" class="message"></div>
+
+    <div id="statsGridAdmin" class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalTasksAdmin">0</div>
+        <div class="stat-label">Total Tasks</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalUsersAdmin">0</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalDeptsAdmin">0</div>
+        <div class="stat-label">Departments</div>
+      </div>
+    </div>
+
+    <div id="chartContainerAdmin" class="card chart-container">
+      <h3 class="card-title">Tasks by Department</h3>
+      <canvas id="chartAdmin"></canvas>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Complete Database</h3>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Task</th>
+              <th>Reference</th>
+              <th>Description</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="tableBodyAdmin"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<!-- About Us Modal -->
-<div id="aboutModal" class="modal">
+<!-- Admin Login Modal -->
+<div id="adminModal" class="modal">
   <div class="modal-content">
-    <button class="close-btn" onclick="closeAbout()">&times;</button>
+    <button class="close-btn" onclick="closeAdminLogin()">×</button>
     
     <div class="modal-header">
-      <div class="modal-icon">
-        <svg width="80" height="80" viewBox="0 0 80 80">
-          <circle cx="40" cy="40" r="38" fill="none" stroke="#ff6a2b" stroke-width="3"/>
-          <path d="M40 20 L55 50 L25 50 Z" fill="#ff6a2b"/>
-        </svg>
-      </div>
-      <h2 class="modal-title">About AERVIX</h2>
-      <p class="modal-subtitle">Hardware Engineering Platform</p>
+      <h2 class="modal-title">Admin Access</h2>
     </div>
     
     <div class="modal-body">
-      <p class="modal-info">
-        AERVIX is a comprehensive platform designed to track and manage hardware engineering tasks, 
-        helping students and professionals organize their learning journey.
-      </p>
-      
-      <p class="developer-name">Developed by ASHWIN K and Delght T</p>
-      
-      <p class="modal-info">
-        This platform enables electronics enthusiasts to log their projects, 
-        track progress, and maintain a portfolio of their hardware achievements.
-      </p>
-    </div>
-    
-    <div class="modal-footer">
-      <p class="modal-footer-text">© 2026 AERVIX Engineering Club</p>
-      <p class="modal-footer-text">Offline Hardware Intelligence</p>
+      <p>Enter admin password:</p>
+      <input type="password" id="adminPassword" placeholder="Password" 
+             onkeypress="if(event.key==='Enter') verifyAdmin()">
+      <br><br>
+      <button class="btn btn-primary" onclick="verifyAdmin()" style="width:100%">Login</button>
+      <div id="adminError" class="message"></div>
     </div>
   </div>
 </div>
 
 <!-- Footer -->
 <footer class="footer">
-  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by ASHWIN AND DELIGHT</p>
+  <p class="footer-text">© 2026 AERVIX Engineering Club • Developed by <strong>ASHWIN K & DELIGHT T</strong></p>
 </footer>
 
 <script>
 // ==================== CONFIGURATION ====================
-// REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxorMDgPszzLHpoyXzCTCrAI5nL4YgwGHarl1IzpWis50Eb2YHU9bTQVUE66VN6Eg7ATw/exec";
+const IMAGE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx0VEHw0smnDiDgW8pBMwqreH-yfpBRWB8SQ-J5vlmh7Ufp7FzXK7IrXCVRFBtXf1-Nlw/exec";
+const ADMIN_PASSWORD = "AERVIX";
 
 let chartInstance = null;
+let chartCommunityInstance = null;
+let chartAdminInstance = null;
 
 // ==================== PAGE NAVIGATION ====================
 function showPage(page) {
-  // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.btn-secondary').forEach(b => b.classList.remove('active'));
   
-  // Show selected page
   if (page === 'upload') {
     document.getElementById('uploadPage').classList.add('active');
     document.getElementById('btnUpload').classList.add('active');
+  } else if (page === 'community') {
+    document.getElementById('communityPage').classList.add('active');
+    document.getElementById('btnCommunity').classList.add('active');
+    loadCommunityTasks();
   } else if (page === 'progress') {
     document.getElementById('progressPage').classList.add('active');
     document.getElementById('btnProgress').classList.add('active');
-    // Automatically load all tasks when progress page is shown
-    loadAllTasks();
+  } else if (page === 'admin') {
+    document.getElementById('adminPage').classList.add('active');
+    loadAdminData();
   }
   
-  // Scroll to top
   window.scrollTo(0, 0);
 }
 
-// ==================== ABOUT US MODAL ====================
-function showAbout() {
-  document.getElementById('aboutModal').classList.add('show');
-}
-
-function closeAbout() {
-  document.getElementById('aboutModal').classList.remove('show');
-}
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-  const modal = document.getElementById('aboutModal');
-  if (event.target === modal) {
-    closeAbout();
+// ==================== IMAGE PREVIEW ====================
+function previewImage() {
+  const file = document.getElementById('imageInput').files[0];
+  const preview = document.getElementById('imagePreview');
+  
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    }
+    reader.readAsDataURL(file);
   }
 }
 
 // ==================== UPLOAD FUNCTIONS ====================
-function uploadTask(event) {
+async function uploadTask(event) {
   event.preventDefault();
   
   const name = document.getElementById('name').value.trim();
@@ -817,142 +1015,271 @@ function uploadTask(event) {
   const task = document.getElementById('task').value.trim();
   const reference = document.getElementById('reference').value.trim();
   const description = document.getElementById('description').value.trim();
+  const imageFile = document.getElementById('imageInput').files[0];
   
-  const msg = document.getElementById('uploadMsg');
-  msg.className = 'message loading show';
-  msg.textContent = 'Uploading task...';
+  // Show loading spinner
+  document.getElementById('spinnerOverlay').classList.add('show');
   
-  const url = SCRIPT_URL + 
-    "?action=save" +
-    "&name=" + encodeURIComponent(name) +
-    "&email=" + encodeURIComponent(email) +
-    "&dept=" + encodeURIComponent(dept) +
-    "&task=" + encodeURIComponent(task) +
-    "&reference=" + encodeURIComponent(reference) +
-    "&description=" + encodeURIComponent(description);
-  
-  fetch(url)
-    .then(res => res.text())
-    .then(data => {
-      msg.className = 'message success show';
-      msg.textContent = '✓ Task uploaded successfully!';
-      
-      setTimeout(() => {
-        resetUploadForm();
-        msg.classList.remove('show');
-      }, 2000);
-    })
-    .catch(err => {
-      msg.className = 'message error show';
-      msg.textContent = '✕ Upload failed: ' + err.message;
-    });
+  try {
+    // Upload image first if exists
+    let imageUrl = '';
+    if (imageFile) {
+      imageUrl = await uploadImage(imageFile);
+    }
+    
+    // Upload task data
+    const url = SCRIPT_URL + 
+      "?action=save" +
+      "&name=" + encodeURIComponent(name) +
+      "&email=" + encodeURIComponent(email) +
+      "&dept=" + encodeURIComponent(dept) +
+      "&task=" + encodeURIComponent(task) +
+      "&reference=" + encodeURIComponent(reference) +
+      "&description=" + encodeURIComponent(description) +
+      "&imageUrl=" + encodeURIComponent(imageUrl);
+    
+    const response = await fetch(url);
+    await response.text();
+    
+    // Hide spinner
+    document.getElementById('spinnerOverlay').classList.remove('show');
+    
+    // Show success message
+    const msg = document.getElementById('uploadMsg');
+    msg.className = 'message success show';
+    msg.textContent = '✓ Task uploaded successfully!';
+    
+    setTimeout(() => {
+      resetUploadForm();
+      msg.classList.remove('show');
+    }, 2000);
+    
+  } catch (err) {
+    document.getElementById('spinnerOverlay').classList.remove('show');
+    const msg = document.getElementById('uploadMsg');
+    msg.className = 'message error show';
+    msg.textContent = '✕ Upload failed: ' + err.message;
+  }
+}
+
+async function uploadImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    
+    reader.onload = async function() {
+      try {
+        const base64 = reader.result.split(",")[1];
+        const formData = new URLSearchParams();
+        formData.append("image", base64);
+        
+        const response = await fetch(IMAGE_SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        });
+        
+        const text = await response.text();
+        
+        if (text.includes("SUCCESS")) {
+          // Extract URL from response
+          const urlMatch = text.match(/https?:\/\/[^\s]+/);
+          resolve(urlMatch ? urlMatch[0] : '');
+        } else {
+          reject(new Error('Image upload failed'));
+        }
+      } catch (err) {
+        reject(err);
+      }
+    };
+    
+    reader.readAsDataURL(file);
+  });
 }
 
 function resetUploadForm() {
   document.getElementById('uploadForm').reset();
+  document.getElementById('imagePreview').style.display = 'none';
   document.getElementById('uploadMsg').classList.remove('show');
 }
 
-// ==================== LOAD ALL TASKS ====================
+// ==================== COMMUNITY TASKS ====================
+function loadCommunityTasks() {
+  showLoadingCommunity();
+  
+  fetch(SCRIPT_URL + "?action=fetchAll")
+    .then(res => res.json())
+    .then(data => {
+      hideLoadingCommunity();
+      if (data.length === 0) {
+        showErrorCommunity('No community tasks yet!');
+        return;
+      }
+      displayCommunityResults(data);
+    })
+    .catch(err => {
+      hideLoadingCommunity();
+      showErrorCommunity('Error loading: ' + err.message);
+    });
+}
+
+function displayCommunityResults(data) {
+  document.getElementById('statsGridCommunity').classList.add('show');
+  document.getElementById('chartContainerCommunity').classList.add('show');
+  
+  document.getElementById('totalTasksCommunity').textContent = data.length;
+  const uniqueUsers = new Set(data.map(r => r.email));
+  document.getElementById('totalUsersCommunity').textContent = uniqueUsers.size;
+  const depts = new Set(data.map(r => r.dept));
+  document.getElementById('totalDeptsCommunity').textContent = depts.size;
+  
+  const tbody = document.getElementById('tableBodyCommunity');
+  tbody.innerHTML = '';
+  data.sort((a, b) => new Date(b.time) - new Date(a.time));
+  
+  data.forEach(r => {
+    const time = new Date(r.time).toLocaleDateString();
+    const refLink = r.reference ? 
+      `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
+      '<span style="color:#666;">N/A</span>';
+    
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${r.name}</strong></td>
+        <td><span class="badge">${r.dept}</span></td>
+        <td>${r.task}</td>
+        <td>${refLink}</td>
+        <td>${time}</td>
+      </tr>
+    `;
+  });
+  
+  const deptCount = {};
+  data.forEach(r => {
+    deptCount[r.dept] = (deptCount[r.dept] || 0) + 1;
+  });
+  drawChartCommunity(deptCount);
+}
+
+function showLoadingCommunity() {
+  document.getElementById('loadingMsgCommunity').style.display = 'block';
+}
+
+function hideLoadingCommunity() {
+  document.getElementById('loadingMsgCommunity').style.display = 'none';
+}
+
+function showErrorCommunity(msg) {
+  const el = document.getElementById('errorMsgCommunity');
+  el.className = 'message error show';
+  el.textContent = msg;
+}
+
+function drawChartCommunity(data) {
+  if (chartCommunityInstance) chartCommunityInstance.destroy();
+  
+  const ctx = document.getElementById('chartCommunity').getContext('2d');
+  chartCommunityInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(data),
+      datasets: [{
+        label: 'Task Count',
+        data: Object.values(data),
+        backgroundColor: '#ff6b00',
+        borderColor: '#ff8c33',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#999', stepSize: 1 },
+          grid: { color: '#222' }
+        },
+        x: {
+          ticks: { color: '#999' },
+          grid: { color: '#222' }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: { color: '#fff', font: { size: 14 } }
+        }
+      }
+    }
+  });
+}
+
+// ==================== PROGRESS FUNCTIONS ====================
 function loadAllTasks() {
   showLoading();
   hideResults();
   
-  const url = SCRIPT_URL + "?action=fetchAll";
-  
-  fetch(url)
+  fetch(SCRIPT_URL + "?action=fetchAll")
     .then(res => res.json())
     .then(data => {
       hideLoading();
-      
       if (data.length === 0) {
-        showError('No tasks found. Start by uploading your first task!');
+        showError('No tasks found!');
         return;
       }
-      
       displayResults(data);
     })
     .catch(err => {
       hideLoading();
-      showError('Error loading tasks: ' + err.message);
+      showError('Error: ' + err.message);
     });
 }
 
-// ==================== SEARCH TASKS BY NAME ====================
 function searchTasks() {
   const name = document.getElementById('search').value.trim();
-  
   if (!name) {
-    showError('Please enter a name to search');
+    showError('Please enter a name');
     return;
   }
   
   showLoading();
   hideResults();
   
-  const url = SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name);
-  
-  fetch(url)
+  fetch(SCRIPT_URL + "?action=fetch&name=" + encodeURIComponent(name))
     .then(res => res.json())
     .then(data => {
       hideLoading();
-      
       if (data.length === 0) {
         showError('No tasks found for "' + name + '"');
         return;
       }
-      
       displayResults(data);
     })
     .catch(err => {
       hideLoading();
-      showError('Error searching: ' + err.message);
+      showError('Error: ' + err.message);
     });
 }
 
-function showLoading() {
-  document.getElementById('loadingMsg').style.display = 'block';
-  document.getElementById('errorMsg').style.display = 'none';
-}
-
-function hideLoading() {
-  document.getElementById('loadingMsg').style.display = 'none';
-}
-
-function showError(message) {
-  document.getElementById('errorMsg').className = 'message error show';
-  document.getElementById('errorMsg').textContent = message;
-  document.getElementById('errorMsg').style.display = 'block';
-}
-
 function displayResults(data) {
-  // Show containers
   document.getElementById('statsGrid').classList.add('show');
   document.getElementById('chartContainer').classList.add('show');
   
-  // Update stats
   document.getElementById('totalTasks').textContent = data.length;
-  
-  // Count unique users
   const uniqueUsers = new Set(data.map(r => r.email));
   document.getElementById('totalUsers').textContent = uniqueUsers.size;
-  
-  // Count unique departments
   const depts = new Set(data.map(r => r.dept));
   document.getElementById('totalDepts').textContent = depts.size;
   
-  // Update table
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = '';
-  
-  // Sort by timestamp (newest first)
   data.sort((a, b) => new Date(b.time) - new Date(a.time));
   
   data.forEach(r => {
     const time = new Date(r.time).toLocaleString();
     const refLink = r.reference ? 
       `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
-      '<span style="color:#64748b;">N/A</span>';
+      '<span style="color:#666;">N/A</span>';
     
     tbody.innerHTML += `
       <tr>
@@ -966,7 +1293,6 @@ function displayResults(data) {
     `;
   });
   
-  // Update chart - show tasks by department
   const deptCount = {};
   data.forEach(r => {
     deptCount[r.dept] = (deptCount[r.dept] || 0) + 1;
@@ -974,33 +1300,40 @@ function displayResults(data) {
   drawChart(deptCount);
 }
 
+function showLoading() {
+  document.getElementById('loadingMsg').style.display = 'block';
+}
+
+function hideLoading() {
+  document.getElementById('loadingMsg').style.display = 'none';
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.className = 'message error show';
+  el.textContent = msg;
+}
+
 function hideResults() {
   document.getElementById('statsGrid').classList.remove('show');
   document.getElementById('chartContainer').classList.remove('show');
 }
 
-// ==================== CHART FUNCTIONS ====================
 function drawChart(data) {
-  if (chartInstance) {
-    chartInstance.destroy();
-  }
-  
-  const labels = Object.keys(data);
-  const values = Object.values(data);
+  if (chartInstance) chartInstance.destroy();
   
   const ctx = document.getElementById('chart').getContext('2d');
-  
   chartInstance = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: labels,
+      labels: Object.keys(data),
       datasets: [{
         label: 'Task Count',
-        data: values,
-        backgroundColor: '#ff6a2b',
-        borderColor: '#ff8a4b',
+        data: Object.values(data),
+        backgroundColor: '#ff6b00',
+        borderColor: '#ff8c33',
         borderWidth: 2,
-        borderRadius: 6
+        borderRadius: 8
       }]
     },
     options: {
@@ -1010,41 +1343,157 @@ function drawChart(data) {
       scales: {
         y: {
           beginAtZero: true,
-          ticks: {
-            color: '#94a3b8',
-            stepSize: 1,
-            font: { size: 12 }
-          },
-          grid: { color: '#1e293b' }
+          ticks: { color: '#999', stepSize: 1 },
+          grid: { color: '#222' }
         },
         x: {
-          ticks: {
-            color: '#94a3b8',
-            font: { size: 12 }
-          },
-          grid: { color: '#1e293b' }
+          ticks: { color: '#999' },
+          grid: { color: '#222' }
         }
       },
       plugins: {
         legend: {
-          labels: {
-            color: '#fff',
-            font: { size: 14 }
-          }
+          labels: { color: '#fff', font: { size: 14 } }
         }
       }
     }
   });
 }
 
-// Search on Enter key
+// ==================== ADMIN FUNCTIONS ====================
+function showAdminLogin() {
+  document.getElementById('adminModal').classList.add('show');
+  document.getElementById('adminPassword').value = '';
+  document.getElementById('adminError').classList.remove('show');
+}
+
+function closeAdminLogin() {
+  document.getElementById('adminModal').classList.remove('show');
+}
+
+function verifyAdmin() {
+  const password = document.getElementById('adminPassword').value;
+  if (password === ADMIN_PASSWORD) {
+    closeAdminLogin();
+    showPage('admin');
+  } else {
+    const err = document.getElementById('adminError');
+    err.className = 'message error show';
+    err.textContent = '✕ Incorrect password!';
+  }
+}
+
+function loadAdminData() {
+  document.getElementById('loadingMsgAdmin').style.display = 'block';
+  
+  fetch(SCRIPT_URL + "?action=fetchAll")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('loadingMsgAdmin').style.display = 'none';
+      displayAdminResults(data);
+    })
+    .catch(err => {
+      document.getElementById('loadingMsgAdmin').style.display = 'none';
+      const el = document.getElementById('errorMsgAdmin');
+      el.className = 'message error show';
+      el.textContent = 'Error: ' + err.message;
+    });
+}
+
+function displayAdminResults(data) {
+  document.getElementById('statsGridAdmin').classList.add('show');
+  document.getElementById('chartContainerAdmin').classList.add('show');
+  
+  document.getElementById('totalTasksAdmin').textContent = data.length;
+  const uniqueUsers = new Set(data.map(r => r.email));
+  document.getElementById('totalUsersAdmin').textContent = uniqueUsers.size;
+  const depts = new Set(data.map(r => r.dept));
+  document.getElementById('totalDeptsAdmin').textContent = depts.size;
+  
+  const tbody = document.getElementById('tableBodyAdmin');
+  tbody.innerHTML = '';
+  data.sort((a, b) => new Date(b.time) - new Date(a.time));
+  
+  data.forEach(r => {
+    const time = new Date(r.time).toLocaleString();
+    const refLink = r.reference ? 
+      `<a href="${r.reference}" target="_blank" class="ref-link">View</a>` : 
+      '<span style="color:#666;">N/A</span>';
+    
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${r.name}</strong></td>
+        <td>${r.email}</td>
+        <td><span class="badge">${r.dept}</span></td>
+        <td>${r.task}</td>
+        <td>${refLink}</td>
+        <td>${r.description || 'N/A'}</td>
+        <td>${time}</td>
+      </tr>
+    `;
+  });
+  
+  const deptCount = {};
+  data.forEach(r => {
+    deptCount[r.dept] = (deptCount[r.dept] || 0) + 1;
+  });
+  drawChartAdmin(deptCount);
+}
+
+function drawChartAdmin(data) {
+  if (chartAdminInstance) chartAdminInstance.destroy();
+  
+  const ctx = document.getElementById('chartAdmin').getContext('2d');
+  chartAdminInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(data),
+      datasets: [{
+        label: 'Task Count',
+        data: Object.values(data),
+        backgroundColor: '#ff6b00',
+        borderColor: '#ff8c33',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: 2,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#999', stepSize: 1 },
+          grid: { color: '#222' }
+        },
+        x: {
+          ticks: { color: '#999' },
+          grid: { color: '#222' }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: { color: '#fff', font: { size: 14 } }
+        }
+      }
+    }
+  });
+}
+
+// Close modals on outside click
+window.onclick = function(event) {
+  if (event.target.classList.contains('modal')) {
+    event.target.classList.remove('show');
+  }
+}
+
+// Search on Enter
 document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById('search');
   if (searchInput) {
     searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        searchTasks();
-      }
+      if (e.key === 'Enter') searchTasks();
     });
   }
 });
@@ -1052,5 +1501,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
-
-
